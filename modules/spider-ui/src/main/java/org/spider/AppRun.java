@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 import org.spider.ui.MainUI;
 
 /**
- * Hello world!
+ * 应用启动
  *
  */
 public class AppRun
