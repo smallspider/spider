@@ -24,7 +24,7 @@ package org.spider.ui.widget;
  */
 public interface Widget {
 
-	void winit();
+	public void winit();
 
-	String getWid();
+	public String getWid();
 }

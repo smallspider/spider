@@ -20,6 +20,8 @@ package org.spider.ui.widget;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.spider.ui.ScreenWindow;
+
 /**
  * @author yangguangftlp
  * 
@@ -30,6 +32,14 @@ public class WidgetManager {
 
 	private WidgetManager() {
 		widgetMap = new HashMap<String, Widget>();
+		init();
+	}
+
+	/**
+	 * 初始化默认组件
+	 */
+	private void init() {
+		widgetMap.put("ScreenWindow.class", new ScreenWindow());
 	}
 
 	public static WidgetManager getInstance() {

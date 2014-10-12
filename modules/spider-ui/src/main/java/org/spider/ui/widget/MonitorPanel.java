@@ -28,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import org.spider.ui.MainUI;
+import org.spider.ui.ScreenWindow;
 
 /**
  * @author yangguangftlp
@@ -62,14 +63,18 @@ public class MonitorPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(!imageWidget.isResize()){
-					MainUI MainUI = (MainUI) WidgetManager.getInstance().getWidget(MainUI.class.getName()+"_MainUI01");
+					/*MainUI MainUI = (MainUI) WidgetManager.getInstance().getWidget(MainUI.class.getName()+"_MainUI01");
 					MainUI.remove(MainUI.getSplitPane());
 					MainUI.repaint();
 					JPanel jp = new JPanel();
 					jp.setLayout(new BorderLayout());
 					jp.add(imageWidget, BorderLayout.CENTER);
 					imageWidget.doResize();
-					MainUI.add(jp,BorderLayout.CENTER);
+					MainUI.add(jp,BorderLayout.CENTER);*/
+					MainUI MainUI = (MainUI) WidgetManager.getInstance().getWidget(MainUI.class.getName()+"_MainUI01");
+					MainUI.setVisible(false);
+					ScreenWindow screenWindow = (ScreenWindow) WidgetManager.getInstance().getWidget("ScreenWindow.class");
+					screenWindow.setVisible(true);
 				}
 			}
 		});
