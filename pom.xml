@@ -24,5 +24,6 @@
   </dependencies>
   <modules>
     <module>modules/spider-ui</module>
+    <module>modules/spider-server</module>
   </modules>
 </project>
