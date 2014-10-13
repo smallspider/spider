@@ -38,6 +38,11 @@ public class RunUI {
 		mainUI.setBounds(bounds);
 		mainUI.setExtendedState(MainUI.MAXIMIZED_BOTH);
 		mainUI.setDefaultCloseOperation(MainUI.EXIT_ON_CLOSE);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		mainUI.setVisible(true);
 	}
 }

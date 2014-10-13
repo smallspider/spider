@@ -51,8 +51,9 @@ public class MonitorPanel extends JPanel {
 
 	private void init() {
 
-		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("border_title"), BorderFactory
-				.createEmptyBorder(10, 10, 10, 10)));
+		setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder("border_title"),
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		setLayout(new BorderLayout());
 		setPreferredSize(preferredSize);
 		imageWidget = new ImageWidget(new ImageIcon("test_2.png"));
@@ -61,20 +62,17 @@ public class MonitorPanel extends JPanel {
 		imageWidget.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-				if(!imageWidget.isResize()){
-					/*MainUI MainUI = (MainUI) WidgetManager.getInstance().getWidget(MainUI.class.getName()+"_MainUI01");
-					MainUI.remove(MainUI.getSplitPane());
-					MainUI.repaint();
-					JPanel jp = new JPanel();
-					jp.setLayout(new BorderLayout());
-					jp.add(imageWidget, BorderLayout.CENTER);
-					imageWidget.doResize();
-					MainUI.add(jp,BorderLayout.CENTER);*/
-					MainUI MainUI = (MainUI) WidgetManager.getInstance().getWidget(MainUI.class.getName()+"_MainUI01");
+
+				if (!imageWidget.isResize()) {
+					MainUI MainUI = (MainUI) WidgetManager.getInstance()
+							.getWidget(MainUI.class.getName() + "_MainUI01");
 					MainUI.setVisible(false);
-					ScreenWindow screenWindow = (ScreenWindow) WidgetManager.getInstance().getWidget("ScreenWindow.class");
+					ScreenWindow screenWindow = (ScreenWindow) WidgetManager
+							.getInstance().getWidget("ScreenWindow.class");
+					screenWindow.setWindow(MainUI);
+					screenWindow.setAlwaysOnTop(true);
 					screenWindow.setVisible(true);
+					screenWindow.setFocusable(true);
 				}
 			}
 		});
@@ -87,5 +85,5 @@ public class MonitorPanel extends JPanel {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 }

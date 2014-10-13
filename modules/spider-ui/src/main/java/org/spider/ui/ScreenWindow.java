@@ -20,12 +20,15 @@ package org.spider.ui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 import org.spider.ui.widget.Widget;
@@ -41,7 +44,8 @@ public class ScreenWindow extends JWindow implements Widget {
 	 */
 	private static final long serialVersionUID = -3528196568423979934L;
 
-	private JWindow toolbar;
+	private Window win;
+	private JPanel toolbar;
 
 	public ScreenWindow() {
 
@@ -55,41 +59,47 @@ public class ScreenWindow extends JWindow implements Widget {
 	 */
 	protected void initTool() {
 		setLayout(null);
-		toolbar = new JWindow(this);
+		toolbar = new JPanel();
+		toolbar.setSize(500, 50);
 		toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JButton jb = new JButton("aa");
 		toolbar.add(jb);
 		toolbar.add(new JButton("aa"));
 		toolbar.add(new JButton("aa"));
 		toolbar.add(new JButton("aa"));
-		toolbar.add(new JButton("aa"));
-		toolbar.add(new JButton("aa"));
-		toolbar.add(new JButton("x"));
+		toolbar.setBorder(BorderFactory.createTitledBorder(""));
+		add(toolbar);
 		jb.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				if (null != win) {
+					toolbar.setVisible(false);
+					setVisible(false);
+					win.setVisible(true);
+					win.setFocusableWindowState(true);
+				}
 			}
 		});
-		toolbar.pack();
 		final int screenwidth = getWidth();
-		final int toolbarWidth = toolbar.getWidth();
+		final int toolbarWidth = 500;
 		final int startX = (screenwidth - toolbarWidth) / 2;
 		toolbar.setLocation(startX, 0);
 		toolbar.setVisible(false);
 		addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseMoved(MouseEvent e) {
-				if (e.getX() >= startX && e.getX() <= startX + toolbarWidth
-						&& e.getY() >= 0 && e.getY() <= toolbar.getHeight()) {
-					if (!toolbar.isVisible()) {
-						toolbar.setVisible(true);
-					}
-				} else {
-					if (toolbar.isVisible()) {
-						toolbar.setVisible(false);
-					}
 
+				if (isVisible()) {
+					if (e.getX() >= startX && e.getX() <= startX + toolbarWidth
+							&& e.getY() >= 0 && e.getY() <= toolbar.getHeight()) {
+						if (!toolbar.isVisible()) {
+							toolbar.setVisible(true);
+						}
+					} else {
+						if (toolbar.isVisible()) {
+							toolbar.setVisible(false);
+						}
+					}
 				}
 			}
 
@@ -99,7 +109,6 @@ public class ScreenWindow extends JWindow implements Widget {
 	}
 
 	public void init() {
-
 		setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		getContentPane().setBackground(Color.BLACK);
 		setAlwaysOnTop(true);
@@ -117,5 +126,9 @@ public class ScreenWindow extends JWindow implements Widget {
 
 	public String getWid() {
 		return null;
+	}
+
+	public void setWindow(Window win) {
+		this.win = win;
 	}
 }
