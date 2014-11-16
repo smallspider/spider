@@ -20,6 +20,8 @@ package org.spider.ui.widget;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -64,15 +66,23 @@ public class MonitorPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (!imageWidget.isResize()) {
-					MainUI MainUI = (MainUI) WidgetManager.getInstance()
+					MainUI mainUI = (MainUI) WidgetManager.getInstance()
 							.getWidget(MainUI.class.getName() + "_MainUI01");
-					MainUI.setVisible(false);
-					ScreenWindow screenWindow = (ScreenWindow) WidgetManager
-							.getInstance().getWidget("ScreenWindow.class");
-					screenWindow.setWindow(MainUI);
-					screenWindow.setAlwaysOnTop(true);
-					screenWindow.setVisible(true);
-					screenWindow.setFocusable(true);
+					mainUI.setVisible(false);
+					ScreenWindow.showFullScreenWindow(mainUI);
+					/*try {
+						Thread.sleep(100);
+						ScreenWindow screenWindow = (ScreenWindow) WidgetManager
+								.getInstance().getWidget("ScreenWindow.class");
+						screenWindow.setWindow(MainUI);
+						//screenWindow.setVisible(true);
+						//screenWindow.setFocusable(true);
+						// screenWindow.setAlwaysOnTop(true);
+						ScreenWindow.showFullScreenWindow();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}*/
 				}
 			}
 		});

@@ -19,19 +19,24 @@ package org.spider.ui;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 import org.spider.ui.widget.Widget;
+import org.spider.ui.widget.screen.ToolbarWidget;
 
 /**
  * @author yangguangftlp
@@ -44,31 +49,54 @@ public class ScreenWindow extends JWindow implements Widget {
 	 */
 	private static final long serialVersionUID = -3528196568423979934L;
 
+	private ScreenWindow sw;
+
 	private Window win;
-	private JPanel toolbar;
+	private ToolbarWidget toolbar;
+
+	private Thread repaintThread;
+	private boolean isStop;
 
 	public ScreenWindow() {
-
-		init();
+		setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		setLayout(null);
 		initTool();
+		initCanse();
+
+		repaintThread = new Thread(new RepaintThread());
+		repaintThread.start();
 
 	}
+
+	private class RepaintThread implements Runnable {
+		public void run() {
+			while (!isStop) {
+				try {
+					Thread.sleep(10);
+					ScreenWindow.this.repaint();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	private Image iBuffer;
+	private BufferedImage bImage;
+	private Graphics gBuffer;
+	private boolean isTrue;
 
 	/**
 	 * 工具栏
 	 */
 	protected void initTool() {
-		setLayout(null);
-		toolbar = new JPanel();
+		toolbar = new ToolbarWidget();
 		toolbar.setSize(500, 50);
-		toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JButton jb = new JButton("aa");
+		toolbar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JButton jb = new JButton("退出全屏");
 		toolbar.add(jb);
-		toolbar.add(new JButton("aa"));
-		toolbar.add(new JButton("aa"));
-		toolbar.add(new JButton("aa"));
-		toolbar.setBorder(BorderFactory.createTitledBorder(""));
-		add(toolbar);
+		toolbar.setVisible(false);
 		jb.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -77,7 +105,9 @@ public class ScreenWindow extends JWindow implements Widget {
 					setVisible(false);
 					win.setVisible(true);
 					win.setFocusableWindowState(true);
+					ScreenWindow.this.dispose();
 				}
+				ScreenWindow.this.dispose();
 			}
 		});
 		final int screenwidth = getWidth();
@@ -106,18 +136,44 @@ public class ScreenWindow extends JWindow implements Widget {
 			public void mouseDragged(MouseEvent e) {
 			}
 		});
+
+		add(toolbar);
 	}
 
-	public void init() {
-		setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		getContentPane().setBackground(Color.BLACK);
-		setAlwaysOnTop(true);
+	public void initCanse() {
+		JPanel jp = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4586413151408313946L;
+
+			public void paintComponent(Graphics g) {
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, this.getSize().width, this.getSize().height);
+				g.setColor(Color.RED);
+				g.drawString("ddddddddddddddd" + System.currentTimeMillis(),
+						400, 15);
+				g.fillOval(450, 20, 80, 80);
+				g.setColor(Color.BLACK);
+			}
+		};
+		jp.setSize(getSize());
+		jp.setLocation(0, 0);
+		add(jp);
 	}
 
 	public static void main(String[] args) {
+		ScreenWindow.showFullScreenWindow(null);
+	}
+
+	public static void showFullScreenWindow(Window win) {
 		ScreenWindow sw = new ScreenWindow();
-		sw.init();
-		sw.setVisible(true);
+		sw.setWindow(win);
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getDefaultScreenDevice();
+		if (gd.isFullScreenSupported()) {
+			gd.setFullScreenWindow(sw);
+		}
 	}
 
 	public void winit() {
