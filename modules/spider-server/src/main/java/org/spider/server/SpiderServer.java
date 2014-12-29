@@ -17,54 +17,19 @@
  */
 package org.spider.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-
 /**
- * 
- * 服务器
- * 
  * @author yangguangftlp
  * 
  */
-public class SpiderServer implements Runnable {
+public interface SpiderServer {
 
-	private ServerSocket ss;
-	private int port;
-	private boolean stop;
-	private boolean suspend;
+	/**
+	 * 启动服务
+	 */
+	void start();
 
-	public SpiderServer(int port) {
-		super();
-		this.port = port;
-		init();
-	}
-
-	private void init() {
-		try {
-			ss = new ServerSocket(port);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void run() {
-		if (null != ss) {
-
-			while (!stop) {
-				try {
-					while (suspend) {
-						Thread.sleep(100);
-					}
-					ss.accept();
-					Thread.sleep(100);
-				} catch (IOException e) {
-					e.printStackTrace();
-					// 日志记录
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	/**
+	 * 停止服务
+	 */
+	void stop();
 }

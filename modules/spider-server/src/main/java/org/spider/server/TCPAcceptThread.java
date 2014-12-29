@@ -28,13 +28,13 @@ import java.net.Socket;
  * @author yangguangftlp
  * 
  */
-public class SpiderAcceptThread implements Runnable {
+public class TCPAcceptThread implements Runnable {
 
 	private Socket s;
 	private InputStream in;
 	private OutputStream out;
 
-	public SpiderAcceptThread(Socket s) {
+	public TCPAcceptThread(Socket s) {
 		super();
 		this.s = s;
 		init();
