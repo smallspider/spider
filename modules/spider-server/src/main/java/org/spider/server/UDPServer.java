@@ -17,14 +17,81 @@
  */
 package org.spider.server;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import org.spider.server.model.DataPacket;
+
 /**
  * @author yangguangftlp
  * 
  */
-public class UDPServer implements Runnable {
+public class UDPServer extends AbstSpiderServerImpl {
+
+	DatagramSocket datagramSocket;
+
+	Queue<DataPacket> queue = new LinkedList<DataPacket>();
+
+	public void init() {
+		if (null != datagramSocket) {
+			try {
+				datagramSocket = new DatagramSocket(8008,
+						InetAddress.getLocalHost());
+			} catch (Exception e) {
+				this.isStop = true;
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	public void run() {
+		try {
+			DataPacket dataPacket = null;
+			while (!this.isStop) {
+				if (!queue.isEmpty()) {
+					queue.wait();
+					break;
+				}
+				while (!queue.isEmpty()) {
+					dataPacket = queue.poll();
+					datagramSocket.send(new DatagramPacket(
+							dataPacket.getData(), dataPacket.getOffset(),
+							dataPacket.getLength(), new InetSocketAddress(
+									dataPacket.getAddress(), dataPacket
+											.getPort())));
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public void stop() {
+		this.isStop = true;
+	}
+
+	public int status() {
+		return this.status;
+	}
+
+	public String name() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	public Runnable getServerInstance() {
+		return this;
 	}
 
 }

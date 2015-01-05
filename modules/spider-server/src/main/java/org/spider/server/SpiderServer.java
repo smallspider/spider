@@ -21,7 +21,12 @@ package org.spider.server;
  * @author yangguangftlp
  * 
  */
-public interface SpiderServer {
+public interface SpiderServer extends Runnable {
+
+	/**
+	 * 初始化
+	 */
+	void init();
 
 	/**
 	 * 启动服务
@@ -32,4 +37,18 @@ public interface SpiderServer {
 	 * 停止服务
 	 */
 	void stop();
+
+	/**
+	 * 状态 0:正常,1:停止,2:失败
+	 * 
+	 * @return
+	 */
+	int status();
+
+	/**
+	 * 服务名称
+	 * 
+	 * @return
+	 */
+	String name();
 }
