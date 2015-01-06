@@ -23,10 +23,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import org.spider.server.model.DataPacket;
+import org.spider.server.model.DataPacketQueue;
 
 /**
  * @author yangguangftlp
@@ -35,8 +34,6 @@ import org.spider.server.model.DataPacket;
 public class UDPServer extends AbstSpiderServerImpl {
 
 	DatagramSocket datagramSocket;
-
-	Queue<DataPacket> queue = new LinkedList<DataPacket>();
 
 	public void init() {
 		if (null != datagramSocket) {
@@ -55,21 +52,12 @@ public class UDPServer extends AbstSpiderServerImpl {
 		try {
 			DataPacket dataPacket = null;
 			while (!this.isStop) {
-				if (!queue.isEmpty()) {
-					queue.wait();
-					break;
-				}
-				while (!queue.isEmpty()) {
-					dataPacket = queue.poll();
-					datagramSocket.send(new DatagramPacket(
-							dataPacket.getData(), dataPacket.getOffset(),
-							dataPacket.getLength(), new InetSocketAddress(
-									dataPacket.getAddress(), dataPacket
-											.getPort())));
-				}
+				dataPacket = DataPacketQueue.getInstance().get();
+				datagramSocket.send(new DatagramPacket(dataPacket.getData(),
+						dataPacket.getOffset(), dataPacket.getLength(),
+						new InetSocketAddress(dataPacket.getAddress(),
+								dataPacket.getPort())));
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

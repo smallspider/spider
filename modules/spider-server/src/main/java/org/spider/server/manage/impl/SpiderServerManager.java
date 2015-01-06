@@ -1,18 +1,18 @@
-package org.spider.server.manage;
+package org.spider.server.manage.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.spider.server.SpiderServer;
+import org.spider.server.manage.ServerManager;
+import org.spider.server.utils.SpiderServerUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class SpiderServerManager implements ServerManager,ApplicationContextAware {
-
-	public ApplicationContext applicationContext;
-
-	public List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
+public class SpiderServerManager implements ServerManager,
+		ApplicationContextAware {
+	private List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
 
 	public List<SpiderServer> getSpiderServers() {
 		return spiderServers;
@@ -42,11 +42,8 @@ public class SpiderServerManager implements ServerManager,ApplicationContextAwar
 
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
-		this.applicationContext = arg0;
-	}
-
-	public ApplicationContext getApplicationContext() {
-		return applicationContext;
+		SpiderServerUtils.getInstance().setApplicationContext(arg0);
+		SpiderServerUtils.getInstance().setServerManager(this);
 	}
 
 }
