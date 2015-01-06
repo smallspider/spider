@@ -1,5 +1,4 @@
-package org.spider.server;
-
+package org.spider.server.impl;
 public class AuthService extends AbstSpiderServerImpl {
 
 	public void init() {

@@ -15,7 +15,7 @@
  * 
  * @author yangguangftlp
  */
-package org.spider.server;
+package org.spider.server.impl;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,6 @@
-package org.spider.server;
+package org.spider.server.impl;
+
+import org.spider.server.SpiderServer;
 
 public abstract class AbstSpiderServerImpl implements SpiderServer {
 

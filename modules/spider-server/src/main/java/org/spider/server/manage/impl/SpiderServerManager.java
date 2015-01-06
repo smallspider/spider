@@ -14,6 +14,21 @@ public class SpiderServerManager implements ServerManager,
 		ApplicationContextAware {
 	private List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
 
+	public SpiderServerManager(String[] serverClassNames) {
+		super();
+		if (null != serverClassNames) {
+			for (String className : serverClassNames) {
+				try {
+					spiderServers.add((SpiderServer) Class.forName(className)
+							.newInstance());
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new IllegalArgumentException(e);
+				}
+			}
+		}
+	}
+
 	public List<SpiderServer> getSpiderServers() {
 		return spiderServers;
 	}
