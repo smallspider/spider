@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.spider.server.SpiderServer;
 import org.spider.server.manage.ServerManager;
+import org.spider.server.utils.SpiderClassLoaderUtils;
 import org.spider.server.utils.SpiderServerUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -16,14 +17,12 @@ public class SpiderServerManager implements ServerManager,
 
 	public SpiderServerManager(String[] serverClassNames) {
 		super();
-		if (null != serverClassNames) {
-			for (String className : serverClassNames) {
-				try {
-					spiderServers.add((SpiderServer) Class.forName(className)
-							.newInstance());
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new IllegalArgumentException(e);
+		Object[] objects = SpiderClassLoaderUtils.getInstance().newInstance(
+				serverClassNames);
+		if (null != objects) {
+			for (Object object : objects) {
+				if (object instanceof SpiderServer) {
+					spiderServers.add((SpiderServer) object);
 				}
 			}
 		}
