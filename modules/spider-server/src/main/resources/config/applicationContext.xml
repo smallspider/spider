@@ -35,4 +35,22 @@
 			</array>
 		</constructor-arg>
 	</bean>
+	<!-- 监听管理器 -->
+	<bean id="" class="org.spider.server.manage.impl.SpiderServerManager"
+		init-method="init">
+		<constructor-arg>
+			<array>
+				<value>org.spider.server.impl.UDPServer</value>
+			</array>
+		</constructor-arg>
+	</bean>
+	<!-- 拦截器管理器 -->
+	<bean id="" class="org.spider.server.manage.impl.SpiderServerManager"
+		init-method="init">
+		<constructor-arg>
+			<array>
+				<value>org.spider.server.impl.UDPServer</value>
+			</array>
+		</constructor-arg>
+	</bean>
 </beans>

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.spider.server.SpiderServer;
-import org.spider.server.manage.ServerManager;
+import org.spider.server.manage.ServerManage;
 import org.spider.server.utils.SpiderClassLoaderUtils;
 import org.spider.server.utils.SpiderServerUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class SpiderServerManager implements ServerManager,
+public class SpiderServerManager implements ServerManage,
 		ApplicationContextAware {
 	private List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
 
@@ -59,5 +59,4 @@ public class SpiderServerManager implements ServerManager,
 		SpiderServerUtils.getInstance().setApplicationContext(arg0);
 		SpiderServerUtils.getInstance().setServerManager(this);
 	}
-
 }

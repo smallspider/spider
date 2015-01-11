@@ -27,20 +27,20 @@ import java.net.ServerSocket;
  * @author yangguangftlp
  * 
  */
-public class TCPServer implements Runnable {
+public class TCPServer extends AbstSpiderServerImpl {
 
+	
 	private ServerSocket ss;
 	private int port;
-	private boolean stop;
-	private boolean suspend;
-
+    private TCPAcceptServer tcpAcceptServer;
+    
 	public TCPServer(int port) {
 		super();
 		this.port = port;
 		init();
 	}
 
-	private void init() {
+	public void init() {
 		try {
 			ss = new ServerSocket(port);
 		} catch (IOException e) {
@@ -50,14 +50,13 @@ public class TCPServer implements Runnable {
 
 	public void run() {
 		if (null != ss) {
-
-			while (!stop) {
+			while (!isStop) {
 				try {
-					while (suspend) {
-						Thread.sleep(100);
+					while (isSuspend) {
+						Thread.sleep(threadSleep);
+						tcpAcceptServer.addSocket(ss.accept());
 					}
-					ss.accept();
-					Thread.sleep(100);
+					Thread.sleep(threadSleep);
 				} catch (IOException e) {
 					e.printStackTrace();
 					// 日志记录
@@ -66,5 +65,24 @@ public class TCPServer implements Runnable {
 				}
 			}
 		}
+	}
+
+
+	public int status() {
+		return 0;
+	}
+
+	public String name() {
+		return null;
+	}
+
+	@Override
+	public Runnable getServerInstance() {
+		return this;
+	}
+
+
+	public void setTcpAcceptServer(TCPAcceptServer tcpAcceptServer) {
+		this.tcpAcceptServer = tcpAcceptServer;
 	}
 }

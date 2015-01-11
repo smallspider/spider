@@ -21,6 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 处理接收客户端
@@ -28,19 +32,21 @@ import java.net.Socket;
  * @author yangguangftlp
  * 
  */
-public class TCPAcceptThread implements Runnable {
+public class TCPAcceptServer extends AbstSpiderServerImpl {
 
+	private List<Socket> clientSockets = Collections
+			.synchronizedList(new ArrayList<Socket>());
 	private Socket s;
 	private InputStream in;
 	private OutputStream out;
 
-	public TCPAcceptThread(Socket s) {
+	public TCPAcceptServer(Socket s) {
 		super();
 		this.s = s;
 		init();
 	}
 
-	private void init() {
+	public void init() {
 		try {
 			if (null != s) {
 				in = s.getInputStream();
@@ -52,11 +58,24 @@ public class TCPAcceptThread implements Runnable {
 	}
 
 	public void run() {
-
-		while (true) {
-
-			;
+		while (!isStop) {
+			while (!isSuspend) {
+				Iterator<Socket> iterator = new ArrayList<Socket>(clientSockets)
+						.iterator();
+				while (iterator.hasNext()) {
+					//遍历拦截器
+				}
+			}
 		}
+	}
+
+	/**
+	 * 添加客户端Socket
+	 * 
+	 * @param socket
+	 */
+	public void addSocket(Socket socket) {
+		clientSockets.add(socket);
 	}
 
 	/**
@@ -69,6 +88,30 @@ public class TCPAcceptThread implements Runnable {
 	 * 写入内容
 	 */
 	public void write() {
+	}
+
+	public void stop() {
+		this.isStop = true;
+		
+	}
+
+	public void suspend() {
+        this.isSuspend = true;		
+	}
+
+	public int status() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public String name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Runnable getServerInstance() {
+		return this;
 	}
 
 }
