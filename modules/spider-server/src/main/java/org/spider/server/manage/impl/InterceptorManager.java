@@ -13,15 +13,28 @@ public class InterceptorManager implements InterceptorManage {
 	List<Interceptor> interceptors = new ArrayList<Interceptor>();
 	Map<String, Interceptor> interceptorMap = new HashMap<String, Interceptor>();
 
+	/**
+	 * 初始化拦截器
+	 */
 	public void init() {
 
 	}
 
-	public void stop() {
 
+	/**
+	 * 获取拦截器
+	 * 
+	 * @param key
+	 *            拦截器ID
+	 * @return 拦截器
+	 */
+	public Interceptor get(String key) {
+		return interceptorMap.get("command");
 	}
 
-	public Interceptor get(String key) {
-		return interceptorMap.get(key);
+
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 }
