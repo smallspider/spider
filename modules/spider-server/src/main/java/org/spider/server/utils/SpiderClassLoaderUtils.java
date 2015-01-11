@@ -5,6 +5,7 @@ package org.spider.server.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 /**
  * @author yangguangftlp
@@ -66,4 +67,8 @@ public class SpiderClassLoaderUtils extends ClassLoader {
 		}
 		return null;
 	};
+	
+	public void loadService(){
+		//ServiceLoader.load(service)
+	}
 }
