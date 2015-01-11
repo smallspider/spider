@@ -1,5 +1,5 @@
 package org.spider.server.manage;
 
-public interface ListenerManage extends SpiderManage{
-	
+public abstract class ListenerManage implements SpiderManage {
+
 }

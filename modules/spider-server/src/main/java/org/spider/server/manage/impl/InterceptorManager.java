@@ -8,7 +8,7 @@ import java.util.Map;
 import org.spider.server.interceptor.Interceptor;
 import org.spider.server.manage.InterceptorManage;
 
-public class InterceptorManager implements InterceptorManage {
+public class InterceptorManager extends InterceptorManage {
 
 	List<Interceptor> interceptors = new ArrayList<Interceptor>();
 	Map<String, Interceptor> interceptorMap = new HashMap<String, Interceptor>();
@@ -19,7 +19,6 @@ public class InterceptorManager implements InterceptorManage {
 	public void init() {
 
 	}
-
 
 	/**
 	 * 获取拦截器
@@ -32,9 +31,8 @@ public class InterceptorManager implements InterceptorManage {
 		return interceptorMap.get("command");
 	}
 
-
 	public void stop() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

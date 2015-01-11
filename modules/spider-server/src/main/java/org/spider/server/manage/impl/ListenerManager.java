@@ -7,7 +7,7 @@ import org.spider.server.interceptor.Interceptor;
 import org.spider.server.interceptor.SystemInterceptor;
 import org.spider.server.manage.ListenerManage;
 
-public class ListenerManager implements ListenerManage {
+public class ListenerManager extends ListenerManage {
 
 	private List<Interceptor> interceptors = new ArrayList<Interceptor>();
 	private SystemInterceptor sysInterceptor;

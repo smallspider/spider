@@ -11,7 +11,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class SpiderServerManager implements ServerManage,
+public class SpiderServerManager extends ServerManage implements
 		ApplicationContextAware {
 	private List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
 
