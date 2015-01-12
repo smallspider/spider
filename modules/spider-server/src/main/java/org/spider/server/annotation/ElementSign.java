@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  */
 
 /**
- * 常量类
+ * 元素标记
  * 
  * @author yangguangftlp
  * @date 2014年10月29日
