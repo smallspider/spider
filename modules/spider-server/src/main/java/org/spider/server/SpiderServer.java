@@ -39,6 +39,16 @@ public interface SpiderServer extends Runnable {
 	void stop();
 
 	/**
+	 * 暂停服务
+	 */
+	void suspend();
+
+	/**
+	 * 继续服务
+	 */
+	void doContinue();
+
+	/**
 	 * 状态 0:正常,1:停止,2:失败
 	 * 
 	 * @return

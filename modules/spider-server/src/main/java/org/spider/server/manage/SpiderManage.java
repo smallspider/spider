@@ -1,7 +1,7 @@
 package org.spider.server.manage;
 
-public interface ServerManager {
-
+public interface SpiderManage {
+	
 	/**
 	 * 初始化
 	 */

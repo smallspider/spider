@@ -65,10 +65,6 @@ public class UDPServer extends AbstSpiderServerImpl {
 		}
 	}
 
-	public void stop() {
-		this.isStop = true;
-	}
-
 	public int status() {
 		return this.status;
 	}

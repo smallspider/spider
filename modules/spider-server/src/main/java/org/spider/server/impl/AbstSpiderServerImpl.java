@@ -6,6 +6,9 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 
 	protected int status;
 	protected boolean isStop;
+	protected boolean isSuspend;
+	/** 默认时间 */
+	protected int threadSleep = 100;
 
 	public void start() {
 		if (!this.isStop) {
@@ -13,10 +16,22 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 			Thread thread = null;
 			if (null != runnable) {
 				thread = new Thread(runnable);
-				//thread.setDaemon(true);
+				// thread.setDaemon(true);
 				thread.start();
 			}
 		}
+	}
+
+	public void stop() {
+		isStop = true;
+	}
+
+	public void suspend() {
+		isSuspend = true;
+	}
+
+	public void doContinue() {
+		isSuspend = false;
 	}
 
 	/**
