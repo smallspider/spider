@@ -9,7 +9,7 @@ public class SpiderServerUtils {
 	private ApplicationContext applicationContext;
 	private SpiderServerManager serverManager;
 
-	public SpiderServerUtils() {
+	private SpiderServerUtils() {
 		super();
 	}
 
