@@ -17,9 +17,6 @@
  */
 package org.spider.server.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,48 +31,27 @@ import java.util.List;
  */
 public class TCPAcceptServer extends AbstSpiderServerImpl {
 
-	private List<Socket> clientSockets = Collections
-			.synchronizedList(new ArrayList<Socket>());
-	private Socket s;
-	private InputStream in;
-	private OutputStream out;
+	private List<ClientServer> clientSockets = Collections
+			.synchronizedList(new ArrayList<ClientServer>());
 
-	public TCPAcceptServer(Socket s) {
-		super();
-		this.s = s;
+	public void acceptSocket(Socket socket) {
 		init();
+		clientSockets.add(new ClientServer(socket));
 	}
 
 	public void init() {
-		try {
-			if (null != s) {
-				in = s.getInputStream();
-				out = s.getOutputStream();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void run() {
 		while (!isStop) {
 			while (!isSuspend) {
-				Iterator<Socket> iterator = new ArrayList<Socket>(clientSockets)
+				Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientSockets)
 						.iterator();
 				while (iterator.hasNext()) {
-					//遍历拦截器
+					// 遍历拦截器
 				}
 			}
 		}
-	}
-
-	/**
-	 * 添加客户端Socket
-	 * 
-	 * @param socket
-	 */
-	public void addSocket(Socket socket) {
-		clientSockets.add(socket);
 	}
 
 	/**
@@ -92,11 +68,11 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 
 	public void stop() {
 		this.isStop = true;
-		
+
 	}
 
 	public void suspend() {
-        this.isSuspend = true;		
+		this.isSuspend = true;
 	}
 
 	public int status() {

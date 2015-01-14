@@ -29,11 +29,10 @@ import java.net.ServerSocket;
  */
 public class TCPServer extends AbstSpiderServerImpl {
 
-	
 	private ServerSocket ss;
 	private int port;
-    private TCPAcceptServer tcpAcceptServer;
-    
+	private TCPAcceptServer tcpAcceptServer;
+
 	public TCPServer(int port) {
 		super();
 		this.port = port;
@@ -54,7 +53,7 @@ public class TCPServer extends AbstSpiderServerImpl {
 				try {
 					while (isSuspend) {
 						Thread.sleep(threadSleep);
-						tcpAcceptServer.addSocket(ss.accept());
+						tcpAcceptServer.acceptSocket(ss.accept());
 					}
 					Thread.sleep(threadSleep);
 				} catch (IOException e) {
@@ -66,7 +65,6 @@ public class TCPServer extends AbstSpiderServerImpl {
 			}
 		}
 	}
-
 
 	public int status() {
 		return 0;
@@ -80,7 +78,6 @@ public class TCPServer extends AbstSpiderServerImpl {
 	public Runnable getServerInstance() {
 		return this;
 	}
-
 
 	public void setTcpAcceptServer(TCPAcceptServer tcpAcceptServer) {
 		this.tcpAcceptServer = tcpAcceptServer;
