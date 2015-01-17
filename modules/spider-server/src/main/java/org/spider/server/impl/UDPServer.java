@@ -17,12 +17,10 @@
  */
 package org.spider.server.impl;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
 
 import org.spider.data.model.DataPacket;
 import org.spider.server.util.DataPacketUtil;
@@ -38,8 +36,7 @@ public class UDPServer extends AbstSpiderServerImpl {
 	public void init() {
 		if (null != datagramSocket) {
 			try {
-				datagramSocket = new DatagramSocket(8008,
-						InetAddress.getLocalHost());
+				datagramSocket = new DatagramSocket(8008, InetAddress.getLocalHost());
 			} catch (Exception e) {
 				this.isStop = true;
 				e.printStackTrace();
@@ -48,21 +45,11 @@ public class UDPServer extends AbstSpiderServerImpl {
 
 	}
 
-	public void run() {
-		try {
-			DataPacket dataPacket = null;
-			while (!this.isStop) {
-				dataPacket = DataPacketUtil.getInstance().get();
-				datagramSocket.send(new DatagramPacket(dataPacket.getData(),
-						dataPacket.getOffset(), dataPacket.getLength(),
-						new InetSocketAddress(dataPacket.getAddress(),
-								dataPacket.getPort())));
-			}
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void execute() throws Exception {
+		DataPacket dataPacket = DataPacketUtil.getInstance().get();
+		datagramSocket.send(new DatagramPacket(dataPacket.getData(), dataPacket.getOffset(), dataPacket.getLength(),
+				new InetSocketAddress(dataPacket.getAddress(), dataPacket.getPort())));
+
 	}
 
 	public int status() {

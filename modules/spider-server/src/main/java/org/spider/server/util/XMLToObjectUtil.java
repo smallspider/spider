@@ -57,9 +57,11 @@ public class XMLToObjectUtil {
 	/**
 	 * 获取实例
 	 * 
+	 * @param cls
+	 *            子类
 	 * @return
 	 */
-	public static XMLToObjectUtil getInstance() {
+	public static XMLToObjectUtil getInstance(Class cls) {
 		if (null == instance) {
 			synchronized (XMLToObjectUtil.class) {
 				if (null == instance) {
@@ -146,9 +148,8 @@ public class XMLToObjectUtil {
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 */
-	private Object parseElement(Element element, Object obj, int level)
-			throws ClassNotFoundException, IllegalAccessException,
-			InvocationTargetException, InstantiationException {
+	private Object parseElement(Element element, Object obj, int level) throws ClassNotFoundException,
+			IllegalAccessException, InvocationTargetException, InstantiationException {
 
 		if (null != element && null != obj) {
 			// 处理当前节点属性
@@ -157,9 +158,7 @@ public class XMLToObjectUtil {
 				nodeName = separatorName(element.getName());
 				// 需要判断当前节点是否和obj关联
 				ElementSign ElementSign = obj.getClass().getAnnotation(ElementSign.class);
-				if (null != ElementSign
-						&& ElementSign.xmlEleName().equalsIgnoreCase(nodeName)
-						|| 1 == level) {
+				if (null != ElementSign && ElementSign.xmlEleName().equalsIgnoreCase(nodeName) || 1 == level) {
 					// 处理属性
 					doAttributes(element, obj);
 				}
@@ -171,27 +170,21 @@ public class XMLToObjectUtil {
 			Map<String, List<Object>> objMap = new HashMap<String, List<Object>>();
 			Class targetClass = null;
 			// 获取obj所有方法
-			for (Iterator<Element> iterator = element.elementIterator(); iterator
-					.hasNext();) {
+			for (Iterator<Element> iterator = element.elementIterator(); iterator.hasNext();) {
 				childEle = iterator.next();
 				nodeName = childEle.getName();
 				method = methodMap.get(nodeName);
 				// 处理当前节点
 				if (null != method) {
-					targetClass = method.getAnnotation(ElementSign.class)
-							.beanType();
-					if (null != targetClass
-							&& Modifier.PUBLIC == targetClass.getModifiers()) {
+					targetClass = method.getAnnotation(ElementSign.class).beanType();
+					if (null != targetClass && Modifier.PUBLIC == targetClass.getModifiers()) {
 						if (!objMap.containsKey(nodeName)) {
 							objMap.put(nodeName, new ArrayList<Object>());
 						}
-						objMap.get(nodeName).add(
-								parseElement(childEle,
-										targetClass.newInstance(), 1));
+						objMap.get(nodeName).add(parseElement(childEle, targetClass.newInstance(), 1));
 					} else {
 						// 抱异常
-						throw new IllegalArgumentException("方法名称："
-								+ method.getName() + "的参数非法!");
+						throw new IllegalArgumentException("方法名称：" + method.getName() + "的参数非法!");
 					}
 				} else /** 如果对应节点不存在映射,那么可能在起子节点中,这里 跳过当前节点继续子节点 */
 				{
@@ -202,8 +195,7 @@ public class XMLToObjectUtil {
 			// 处理当前
 			Entry<String, List<Object>> entry = null;
 			Class paramType = null;
-			for (Iterator iterator = objMap.entrySet().iterator(); iterator
-					.hasNext();) {
+			for (Iterator iterator = objMap.entrySet().iterator(); iterator.hasNext();) {
 				entry = (Entry<String, List<Object>>) iterator.next();
 				method = methodMap.get(entry.getKey());
 				paramType = method.getParameterTypes()[0];
@@ -212,13 +204,10 @@ public class XMLToObjectUtil {
 				} else if (paramType.isArray()) {
 					methodMap.get(entry.getKey()).invoke(
 							obj,
-							(Object) copyOf(entry.getValue().toArray(), entry
-									.getValue().size(), (Class) method
-									.getParameterTypes()[0]));
-				} else if (!paramType.isInterface()
-						&& !paramType.isAnnotation()) {
-					methodMap.get(entry.getKey()).invoke(obj,
-							entry.getValue().get(0));
+							(Object) copyOf(entry.getValue().toArray(), entry.getValue().size(),
+									(Class) method.getParameterTypes()[0]));
+				} else if (!paramType.isInterface() && !paramType.isAnnotation()) {
+					methodMap.get(entry.getKey()).invoke(obj, entry.getValue().get(0));
 				}
 			}
 		}
@@ -248,8 +237,7 @@ public class XMLToObjectUtil {
 				name = null;
 				if (null != methods[i].getAnnotation(ElementSign.class)) {
 					name = methods[i].getAnnotation(ElementSign.class).xmlEleName();
-				} else if (paramType.isPrimitive()
-						|| paramType.isAssignableFrom(String.class)) {
+				} else if (paramType.isPrimitive() || paramType.isAssignableFrom(String.class)) {
 					name = methods[i].getName();
 				}
 				if (null != name) {
@@ -278,9 +266,8 @@ public class XMLToObjectUtil {
 			sbuffer.delete(0, 2);
 		}
 		// 处理有些节点属性a:b 去掉a:
-		return new StringBuffer(prefix)
-				.append(Character.toUpperCase(sbuffer.charAt(0)))
-				.append(sbuffer.substring(1)).toString();
+		return new StringBuffer(prefix).append(Character.toUpperCase(sbuffer.charAt(0))).append(sbuffer.substring(1))
+				.toString();
 	}
 
 	/**
@@ -303,25 +290,21 @@ public class XMLToObjectUtil {
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	private void doAttributes(Element element, Object paramObj)
-			throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	private void doAttributes(Element element, Object paramObj) throws IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException {
 		// 处理element属性
 		Method method = null;
 		Attribute attribute = null;
 		Map<Class, Map<String, Method>> classMap = localVar.get();
 		if (null == classMap.get(paramObj.getClass())) {
-			classMap.put(paramObj.getClass(),
-					getXMLElementSignMethods(paramObj.getClass()));
+			classMap.put(paramObj.getClass(), getXMLElementSignMethods(paramObj.getClass()));
 		}
 		Map<String, Method> methods = classMap.get(paramObj.getClass());
 		for (int i = 0, length = element.attributeCount(); i < length; i++) {
 			attribute = element.attribute(i);
-			method = methods.get(generateMethodName(GENERAL_M_PREFIX,
-					attribute.getName()));
+			method = methods.get(generateMethodName(GENERAL_M_PREFIX, attribute.getName()));
 			if (null != method && method.getParameterTypes().length == 1) {
-				setAttributeValue(paramObj, method, attribute.getValue(),
-						method.getParameterTypes()[0]);
+				setAttributeValue(paramObj, method, attribute.getValue(), method.getParameterTypes()[0]);
 			}
 		}
 	}
@@ -337,17 +320,18 @@ public class XMLToObjectUtil {
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	private void setAttributeValue(Object pObj, Method method, String value,
-			Class pType) throws IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+	protected void setAttributeValue(Object pObj, Method method, String value, Class pType)
+			throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 
 		if (String.class == pType) {
 			method.invoke(pObj, value);
 		} else if (boolean.class == pType) {
 			method.invoke(pObj, Boolean.valueOf(value));
+		} else if (Integer.class == pType) {
+			method.invoke(pObj, Integer.valueOf(value));
 		} else {
 			// 暂不支持的类型
-			System.out.println("不支持的类型是:" + pType);
+			throw new IllegalArgumentException("不支持的类型是:" + pType);
 		}
 	}
 
@@ -362,13 +346,10 @@ public class XMLToObjectUtil {
 	 *            新的类型
 	 * @return
 	 */
-	private <T, U> T[] copyOf(U[] original, int newLength,
-			Class<? extends T[]> newType) {
-		T[] copy = ((Object) newType == (Object) Object[].class) ? (T[]) new Object[newLength]
-				: (T[]) Array
-						.newInstance(newType.getComponentType(), newLength);
-		System.arraycopy(original, 0, copy, 0,
-				Math.min(original.length, newLength));
+	private <T, U> T[] copyOf(U[] original, int newLength, Class<? extends T[]> newType) {
+		T[] copy = ((Object) newType == (Object) Object[].class) ? (T[]) new Object[newLength] : (T[]) Array
+				.newInstance(newType.getComponentType(), newLength);
+		System.arraycopy(original, 0, copy, 0, Math.min(original.length, newLength));
 		return copy;
 	}
 }

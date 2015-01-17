@@ -17,11 +17,16 @@
  */
 package org.spider.server.impl;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import org.spider.client.impl.ClientServer;
+import org.spider.server.constant.SpiderConstants;
 
 /**
  * 处理接收客户端
@@ -31,63 +36,71 @@ import java.util.List;
  */
 public class TCPAcceptServer extends AbstSpiderServerImpl {
 
-	private List<ClientServer> clientSockets = Collections
-			.synchronizedList(new ArrayList<ClientServer>());
+	private List<ClientServer> clientServers = Collections.synchronizedList(new ArrayList<ClientServer>());
 
 	public void acceptSocket(Socket socket) {
 		init();
-		clientSockets.add(new ClientServer(socket));
+		ClientServer cs = new ClientServer(this, socket);
+		clientServers.add(cs);
+		new Thread(cs).start();
 	}
 
 	public void init() {
 	}
 
-	public void run() {
-		while (!isStop) {
-			while (!isSuspend) {
-				Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientSockets)
-						.iterator();
-				while (iterator.hasNext()) {
-					// 遍历拦截器
-				}
+	public void execute() {
+		ClientServer cs = null;
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		while (iterator.hasNext()) {
+			// 遍历拦截器
+			cs = iterator.next();
+			if (SpiderConstants.SERVER_STOP == cs.status) {
+				cs.destroy();
+				clientServers.remove(cs);
+			} else {
+				new Thread(cs).start();
 			}
 		}
 	}
 
-	/**
-	 * 读取内容
-	 */
-	public void read() {
-	}
-
-	/**
-	 * 写入内容
-	 */
-	public void write() {
-	}
-
-	public void stop() {
-		this.isStop = true;
-
-	}
-
-	public void suspend() {
-		this.isSuspend = true;
-	}
-
-	public int status() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void sendAllClients(String str) {
+		ClientServer cs = null;
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		while (iterator.hasNext()) {
+			// 遍历拦截器
+			cs = iterator.next();
+			if (SpiderConstants.SERVER_RUN == cs.status) {
+				PrintWriter pw = new PrintWriter(cs.getOut());
+				pw.println(str);
+				pw.flush();
+			}
+		}
+		System.out.println(str);
 	}
 
 	public String name() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Runnable getServerInstance() {
 		return this;
+	}
+
+	/**
+	 * @param socket
+	 * @param clientServer
+	 */
+	public void deleClientServer(ClientServer clientServer) {
+		ClientServer cs = null;
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		while (iterator.hasNext()) {
+			// 遍历拦截器
+			cs = iterator.next();
+			if (SpiderConstants.SERVER_RUN == cs.status && cs == clientServer) {
+				clientServer.stop();
+			}
+		}
 	}
 
 }

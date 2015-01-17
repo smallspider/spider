@@ -4,10 +4,17 @@
 		<commandDefine type="" command="" cmd="" />
 	</commandDefines>
 	<interceptors>
-		<interceptor id="command" listenerClass="org.spider.server.interceptor.CommandInterceptor" type="system" next="context" />
-		<interceptor id="context" listenerClass="org.spider.server.interceptor.CommandContextInterceptor" type="system" next="log" />
-		<interceptor id="log" istenerClass="org.spider.server.interceptor.CommandLogInterceptor" type="system" next="invoker" />
-		<interceptor id="invoker" istenerClass="org.spider.server.interceptor.CommandInvoker" type="system" />
+		<interceptor id="command"
+			listenerClass="org.spider.server.interceptor.CommandInterceptor"
+			type="system" next="context" />
+		<interceptor id="context"
+			listenerClass="org.spider.server.interceptor.CommandContextInterceptor"
+			type="system" next="log" />
+		<interceptor id="log"
+			istenerClass="org.spider.server.interceptor.CommandLogInterceptor"
+			type="system" next="invoker" />
+		<interceptor id="invoker"
+			istenerClass="org.spider.server.interceptor.CommandInvoker" type="system" />
 	</interceptors>
 	<listeners>
 		<listener id="root" eventType="" listenerClass="" type="root"
@@ -20,8 +27,14 @@
 	</plugins>
 	<!-- 服务 -->
 	<servers>
-		<server id="" name="" type="UDP" class="org.spider.server.impl.UDPServer" />
-		<server id="" name="" type="TCP_ACCEPT"
+		<server id="UDPServer" name="UDPServer" type="UDP"
+			class="org.spider.server.impl.UDPServer">
+			<serverConfig status="" isStop="" isSuspend=""
+				threadSleep="" />
+		</server>
+		<server id="TCPAcceptServer" name="TCPAcceptServer" type="TCP_ACCEPT"
 			class="org.spider.server.impl.TCPAcceptServer" />
+		<serverConfig status="" isStop="" isSuspend=""
+			threadSleep="" />
 	</servers>
 </spiderConfig>

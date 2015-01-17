@@ -1,27 +1,8 @@
 package org.spider.server.impl;
+
 public class AuthService extends AbstSpiderServerImpl {
 
 	public void init() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void stop() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public int status() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public String name() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void run() {
 		// TODO Auto-generated method stub
 
 	}
@@ -32,4 +13,23 @@ public class AuthService extends AbstSpiderServerImpl {
 		return null;
 	}
 
+	@Override
+	protected void execute() throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.spider.server.SpiderServer#name()
+	 */
+	public String name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean authLogin(String userId) {
+		return isStop;
+	}
 }

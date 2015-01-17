@@ -11,14 +11,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class SpiderServerManager extends ServerManage implements
-		ApplicationContextAware {
+public class SpiderServerManager extends ServerManage implements ApplicationContextAware {
 	private List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
 
 	public SpiderServerManager(String[] serverClassNames) {
 		super();
-		Object[] objects = SpiderClassLoaderUtil.getInstance().newInstance(
-				serverClassNames);
+		Object[] objects = SpiderClassLoaderUtil.getInstance().newInstance(serverClassNames);
 		if (null != objects) {
 			for (Object object : objects) {
 				if (object instanceof SpiderServer) {
@@ -30,6 +28,15 @@ public class SpiderServerManager extends ServerManage implements
 
 	public List<SpiderServer> getSpiderServers() {
 		return spiderServers;
+	}
+
+	public SpiderServer getServer(Class<?> cls) {
+		for (SpiderServer spiderServer : spiderServers) {
+			if (spiderServer.getClass().getSimpleName() == cls.getSimpleName()) {
+				return spiderServer;
+			}
+		}
+		return null;
 	}
 
 	public void setSpiderServers(List<SpiderServer> spiderServers) {
@@ -54,8 +61,7 @@ public class SpiderServerManager extends ServerManage implements
 		}
 	}
 
-	public void setApplicationContext(ApplicationContext arg0)
-			throws BeansException {
+	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 		SpiderServerUtil.getInstance().setApplicationContext(arg0);
 		SpiderServerUtil.getInstance().setServerManager(this);
 	}

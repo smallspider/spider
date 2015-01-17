@@ -47,22 +47,9 @@ public class TCPServer extends AbstSpiderServerImpl {
 		}
 	}
 
-	public void run() {
+	public void execute() throws Exception {
 		if (null != ss) {
-			while (!isStop) {
-				try {
-					while (isSuspend) {
-						Thread.sleep(threadSleep);
-						tcpAcceptServer.acceptSocket(ss.accept());
-					}
-					Thread.sleep(threadSleep);
-				} catch (IOException e) {
-					e.printStackTrace();
-					// 日志记录
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
+			tcpAcceptServer.acceptSocket(ss.accept());
 		}
 	}
 

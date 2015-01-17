@@ -15,55 +15,25 @@
  * 
  * @author yangguangftlp
  */
-package org.spider.server;
+package org.spider.server.model;
+
+import org.spider.server.annotation.ElementSign;
 
 /**
  * @author yangguangftlp
- * 
+ * @date 2015年1月17日
  */
-public interface SpiderServer extends Runnable {
+public class Server {
 
-	/**
-	 * 初始化
-	 */
-	void init();
+	private ServerConfig serverConfig;
 
-	/**
-	 * 启动服务
-	 */
-	void start();
+	public ServerConfig getServerConfig() {
+		return serverConfig;
+	}
 
-	/**
-	 * 停止服务
-	 */
-	void stop();
+	@ElementSign(xmlEleName = "serverConfig", beanType = ServerConfig.class)
+	public void setServerConfig(ServerConfig serverConfig) {
+		this.serverConfig = serverConfig;
+	}
 
-	/**
-	 * 暂停服务
-	 */
-	void suspend();
-
-	/**
-	 * 继续服务
-	 */
-	void doContinue();
-
-	/**
-	 * 状态 0:正常,1:停止,2:失败
-	 * 
-	 * @return
-	 */
-	int status();
-
-	/**
-	 * 服务名称
-	 * 
-	 * @return
-	 */
-	String name();
-
-	/**
-	 * 服务销毁
-	 */
-	void destroy();
 }
