@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.spider.server.SpiderServer;
 import org.spider.server.manage.ServerManage;
-import org.spider.server.utils.SpiderClassLoaderUtils;
-import org.spider.server.utils.SpiderServerUtils;
+import org.spider.server.util.SpiderClassLoaderUtil;
+import org.spider.server.util.SpiderServerUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -17,7 +17,7 @@ public class SpiderServerManager extends ServerManage implements
 
 	public SpiderServerManager(String[] serverClassNames) {
 		super();
-		Object[] objects = SpiderClassLoaderUtils.getInstance().newInstance(
+		Object[] objects = SpiderClassLoaderUtil.getInstance().newInstance(
 				serverClassNames);
 		if (null != objects) {
 			for (Object object : objects) {
@@ -56,7 +56,7 @@ public class SpiderServerManager extends ServerManage implements
 
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
-		SpiderServerUtils.getInstance().setApplicationContext(arg0);
-		SpiderServerUtils.getInstance().setServerManager(this);
+		SpiderServerUtil.getInstance().setApplicationContext(arg0);
+		SpiderServerUtil.getInstance().setServerManager(this);
 	}
 }

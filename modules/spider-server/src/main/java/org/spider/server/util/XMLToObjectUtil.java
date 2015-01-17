@@ -15,7 +15,7 @@
  * 
  * @author yangguangftlp
  */
-package org.spider.server.utils;
+package org.spider.server.util;
 
 import java.io.InputStream;
 import java.lang.reflect.Array;
@@ -44,13 +44,13 @@ import org.w3c.dom.DOMException;
  * @date 2014年10月27日
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class XMLToObjectUtils {
+public class XMLToObjectUtil {
 	public static final String GENERAL_M_PREFIX = "set";
 	public static final String BOOL_PREFIX = "is";
-	private static XMLToObjectUtils instance;
+	private static XMLToObjectUtil instance;
 	private ThreadLocal<Map<Class, Map<String, Method>>> localVar = new ThreadLocal<Map<Class, Map<String, Method>>>();
 
-	private XMLToObjectUtils() {
+	private XMLToObjectUtil() {
 
 	}
 
@@ -59,11 +59,11 @@ public class XMLToObjectUtils {
 	 * 
 	 * @return
 	 */
-	public static XMLToObjectUtils getInstance() {
+	public static XMLToObjectUtil getInstance() {
 		if (null == instance) {
-			synchronized (XMLToObjectUtils.class) {
+			synchronized (XMLToObjectUtil.class) {
 				if (null == instance) {
-					instance = new XMLToObjectUtils();
+					instance = new XMLToObjectUtil();
 				}
 			}
 		}

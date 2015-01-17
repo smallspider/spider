@@ -15,7 +15,7 @@
  * 
  * @author yangguangftlp
  */
-package org.spider.server.model;
+package org.spider.data.model;
 
 /**
  * 数据包

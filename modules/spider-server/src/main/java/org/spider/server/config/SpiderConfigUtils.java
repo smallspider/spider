@@ -2,9 +2,8 @@ package org.spider.server.config;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ServiceLoader;
 
-import org.spider.server.model.DataPacketQueue;
+import org.spider.server.util.DataPacketUtil;
 
 public class SpiderConfigUtils {
 
@@ -17,7 +16,7 @@ public class SpiderConfigUtils {
 
 	public static SpiderConfigUtils getInstance() {
 		if (null == instance) {
-			synchronized (DataPacketQueue.class) {
+			synchronized (DataPacketUtil.class) {
 				if (null == instance) {
 					instance = new SpiderConfigUtils();
 				}
@@ -26,6 +25,7 @@ public class SpiderConfigUtils {
 		return instance;
 	}
 
+	@SuppressWarnings("unused")
 	public void load(String[] spiderConfig) {
 		if (null != spiderConfig) {
 			for (String className : spiderConfig) {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.spider.server.utils;
+package org.spider.server.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +13,18 @@ import java.util.ServiceLoader;
  *         2015年1月7日
  */
 @SuppressWarnings("rawtypes")
-public class SpiderClassLoaderUtils extends ClassLoader {
-	private static SpiderClassLoaderUtils instance;
+public class SpiderClassLoaderUtil extends ClassLoader {
+	private static SpiderClassLoaderUtil instance;
 
-	public SpiderClassLoaderUtils() {
+	public SpiderClassLoaderUtil() {
 		super();
 	}
 
-	public static SpiderClassLoaderUtils getInstance() {
+	public static SpiderClassLoaderUtil getInstance() {
 		if (null == instance) {
-			synchronized (SpiderClassLoaderUtils.class) {
+			synchronized (SpiderClassLoaderUtil.class) {
 				if (null == instance) {
-					instance = new SpiderClassLoaderUtils();
+					instance = new SpiderClassLoaderUtil();
 				}
 			}
 		}

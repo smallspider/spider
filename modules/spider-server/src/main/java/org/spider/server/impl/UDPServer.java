@@ -24,8 +24,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
-import org.spider.server.model.DataPacket;
-import org.spider.server.model.DataPacketQueue;
+import org.spider.data.model.DataPacket;
+import org.spider.server.util.DataPacketUtil;
 
 /**
  * @author yangguangftlp
@@ -52,7 +52,7 @@ public class UDPServer extends AbstSpiderServerImpl {
 		try {
 			DataPacket dataPacket = null;
 			while (!this.isStop) {
-				dataPacket = DataPacketQueue.getInstance().get();
+				dataPacket = DataPacketUtil.getInstance().get();
 				datagramSocket.send(new DatagramPacket(dataPacket.getData(),
 						dataPacket.getOffset(), dataPacket.getLength(),
 						new InetSocketAddress(dataPacket.getAddress(),

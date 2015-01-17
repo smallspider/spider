@@ -1,7 +1,9 @@
-package org.spider.server.model;
+package org.spider.server.util;
 
 import java.util.LinkedList;
 import java.util.Queue;
+
+import org.spider.data.model.DataPacket;
 
 /**
  * 数据包队列
@@ -10,15 +12,15 @@ import java.util.Queue;
  * 
  *         2015年1月6日
  */
-public class DataPacketQueue {
-	private static DataPacketQueue instance;
+public class DataPacketUtil {
+	private static DataPacketUtil instance;
 	private Queue<DataPacket> queueDataPacket = new LinkedList<DataPacket>();
 
-	public static DataPacketQueue getInstance() {
+	public static DataPacketUtil getInstance() {
 		if (null == instance) {
-			synchronized (DataPacketQueue.class) {
+			synchronized (DataPacketUtil.class) {
 				if (null == instance) {
-					instance = new DataPacketQueue();
+					instance = new DataPacketUtil();
 				}
 			}
 		}

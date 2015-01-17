@@ -1,23 +1,22 @@
-package org.spider.server.utils;
+package org.spider.server.util;
 
 import org.spider.server.manage.impl.SpiderServerManager;
-import org.spider.server.model.DataPacketQueue;
 import org.springframework.context.ApplicationContext;
 
-public class SpiderServerUtils {
-	private static SpiderServerUtils instance;
+public class SpiderServerUtil {
+	private static SpiderServerUtil instance;
 	private ApplicationContext applicationContext;
 	private SpiderServerManager serverManager;
 
-	private SpiderServerUtils() {
+	private SpiderServerUtil() {
 		super();
 	}
 
-	public static SpiderServerUtils getInstance() {
+	public static SpiderServerUtil getInstance() {
 		if (null == instance) {
-			synchronized (DataPacketQueue.class) {
+			synchronized (DataPacketUtil.class) {
 				if (null == instance) {
-					instance = new SpiderServerUtils();
+					instance = new SpiderServerUtil();
 				}
 			}
 		}
@@ -40,8 +39,8 @@ public class SpiderServerUtils {
 		this.serverManager = serverManager;
 	}
 
-	public DataPacketQueue getDataPacketQueue() {
-		return DataPacketQueue.getInstance();
+	public DataPacketUtil getDataPacketQueue() {
+		return DataPacketUtil.getInstance();
 	}
 
 }
