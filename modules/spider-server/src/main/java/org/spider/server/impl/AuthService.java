@@ -29,7 +29,12 @@ public class AuthService extends AbstSpiderServerImpl {
 		return null;
 	}
 
-	public boolean authLogin(String userId) {
-		return isStop;
+	/**
+	 * @param idb
+	 * @param idp
+	 * @return
+	 */
+	public boolean authLogin(byte[] idb, byte[] idp) {
+		return true;
 	}
 }

@@ -103,4 +103,46 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 		}
 	}
 
+	/**
+	 * 给所有客户端发送消息
+	 * 
+	 * @param b
+	 */
+	public void sendAllClients(byte[] b) {
+		System.out.println(new String(b));
+		ClientServer cs = null;
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		while (iterator.hasNext()) {
+			// 遍历拦截器
+			cs = iterator.next();
+			if (SpiderConstants.SERVER_RUN == cs.status) {
+				try {
+					cs.getOut().write(b);
+					cs.getOut().flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 给某个客户端发送消息
+	 * 
+	 * @param clientServer
+	 * 
+	 * @param b
+	 */
+	public void sendOneClient(ClientServer cs, byte[] b) {
+
+		if (SpiderConstants.SERVER_RUN == cs.status) {
+			try {
+				cs.getOut().write(b);
+				cs.getOut().flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
