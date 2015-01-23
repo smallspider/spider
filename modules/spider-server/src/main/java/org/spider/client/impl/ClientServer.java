@@ -128,6 +128,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 		// 获取登录信息
 		int flag = dataIn.readInt();
 		switch (flag) {
+		// 登录
 		case 0x01:
 			// 获取用户名密码
 			byte[] idb = new byte[4];
@@ -147,6 +148,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 			byteArrayOut.write(tempCookieId.getBytes());
 			tcpAcceptServer.sendOneClient(this, byteArrayOut.toByteArray());
 			break;
+		// 令牌
 		case 0x02:
 			// 获取客户端回复
 			int length = in.read();
@@ -155,9 +157,9 @@ public class ClientServer extends AbstSpiderServerImpl {
 			if (tempCookieId.equals(new String(b))) {
 				cookieId = new String(b);
 				// 通知所有人该用户登陆
-				//tcpAcceptServer.sendAllClients();
+				// tcpAcceptServer.sendAllClients();
 				// 通知该用户相关信息
-				//tcpAcceptServer.sendOneClient(this, idb);
+				// tcpAcceptServer.sendOneClient(this, idb);
 			}
 			// 生成会话令牌
 			break;
@@ -182,12 +184,6 @@ public class ClientServer extends AbstSpiderServerImpl {
 		case 0x012:
 			break;
 		}
-		if (flag == 0x01) {
-
-		} else {
-
-		}
-
 	}
 
 	/**
