@@ -1,6 +1,5 @@
 package org.spider.server.constant;
 
-<<<<<<< HEAD
 /**
  * 
  * @author yangguangftlp
@@ -13,11 +12,4 @@ public interface SpiderConstants {
 	int SERVER_RUN = 1;
 	/** 暂停 */
 	int SERVER_SUSPEND = 2;
-=======
-public interface SpiderConstants {
-
-	int SERVER_STOP = 0;
-	int SERVER_RUN = 1;
-
->>>>>>> branch 'develop' of https://github.com/smallspider/spider.git
 }
