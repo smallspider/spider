@@ -43,4 +43,8 @@ public class SpiderServerUtil {
 		return DataPacketUtil.getInstance();
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T getServer(Class<T> cls) {
+		return (T) serverManager.getServer(cls);
+	}
 }

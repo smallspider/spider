@@ -34,7 +34,7 @@ public class AuthService extends AbstSpiderServerImpl {
 	 * @param idp
 	 * @return
 	 */
-	public boolean authLogin(byte[] idb, byte[] idp) {
+	public boolean authLogin(byte[] userId, byte[] userPassword) {
 		return true;
 	}
 }
