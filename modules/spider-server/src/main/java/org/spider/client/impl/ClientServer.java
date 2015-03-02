@@ -17,7 +17,6 @@ import org.spider.server.impl.AbstSpiderServerImpl;
 import org.spider.server.impl.AuthService;
 import org.spider.server.impl.TCPAcceptServer;
 import org.spider.server.util.SpiderServerUtil;
-import org.springframework.core.io.ByteArrayResource;
 
 /**
  * 客户端服务

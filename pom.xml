@@ -26,6 +26,8 @@
     <module>modules/spider-ui</module>
     <module>modules/spider-server</module>
     <module>modules/spider-sound-collector</module>
+	<module>modules/spider-data-center</module>
     <module>modules/spider-client</module>
+    <module>spider-data-center</module>
   </modules>
 </project>

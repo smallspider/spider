@@ -30,14 +30,6 @@ public class MessageParser {
 	 * 　　　　对于int类型变量a,将其转换为字节数组b，方法如下：　　　　　　
 	 * 
 	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
 	 * int a = 100;
 	 * 
 	 * byte[] b = byte[4];
