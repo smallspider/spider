@@ -133,7 +133,7 @@ public class PanelAudio extends JPanel implements ActionListener, ItemListener,
 	volumeSlider[d].setEnabled(port != null && c != null);
 	updateVolumeSlider(d);
 	if (volumePort[d].getSelectedIndex() != pIndex) {
-		volumePort[d].setSelectedIndex(pIndex);
+		//volumePort[d].setSelectedIndex(pIndex);
 	}
     }
 
