@@ -11,7 +11,7 @@ public class GSMEncoder {
 		/*if (args.length != 2) {
 			printUsageAndExit();
 		}*/
-		File pcmFile = new File("C:\\Users\\Administrator\\git\\spider\\modules\\spider-ui\\hello.pcm");
+		File pcmFile = new File("record.wav");
 		
 		
 		

@@ -88,7 +88,7 @@ public class MainUI extends JFrame implements Widget {
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		JButton jb1 = new JButton("xxx");
-		panelleft.add(jb1);
+		//panelleft.add(jb1);
 		jb1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

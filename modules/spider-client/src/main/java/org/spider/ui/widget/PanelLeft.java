@@ -17,11 +17,15 @@
  */
 package org.spider.ui.widget;
 
+import java.awt.BorderLayout;
+import java.awt.Label;
+import java.awt.TextArea;
+
 import javax.swing.JPanel;
 
 /**
  * @author yangguangftlp
- *
+ * 
  */
 public class PanelLeft extends JPanel {
 
@@ -30,4 +34,19 @@ public class PanelLeft extends JPanel {
 	 */
 	private static final long serialVersionUID = -1988272633516053139L;
 
+	public PanelLeft() {
+		super();
+		init();
+	}
+
+	private void init() {
+		setLayout(new BorderLayout());
+		//提示
+		Label label = new Label("aa");
+		add(label,BorderLayout.NORTH);
+		//会议人员
+		add(new FriendsList(),BorderLayout.CENTER);
+		//讨论区
+		add(new TalkPanel(),BorderLayout.SOUTH);
+	}
 }
