@@ -3,7 +3,6 @@
  */
 package org.spider.client.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,7 +33,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 
 	private String userId;
 	private TCPAcceptServer tcpAcceptServer;
-	private String cookieId;
+	private String sessionId;
 	String tempCookieId = null;
 
 	public ClientServer(TCPAcceptServer tcpAcceptServer, Socket socket) {
@@ -81,7 +80,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 			try {
 				while (isSuspend) {
 					Thread.sleep(threadSleep);
-
+					execute();
 				}
 				Thread.sleep(threadSleep);
 			} catch (InterruptedException e) {
@@ -126,27 +125,14 @@ public class ClientServer extends AbstSpiderServerImpl {
 	protected void execute() throws Exception {
 		// 获取登录信息
 		int flag = dataIn.readInt();
-		if (flag != 0x01 && null != cookieId) {
+		if (null == sessionId || 0x01 == flag) {
+			doLogin();
+		} else {
+			// 登录成功后进行业务处理
 			switch (flag) {
-			// 登录
-			case 0x01:
-				// 获取用户名密码
-				byte[] idb = new byte[4];
-				dataIn.read(idb);
-				byte[] idp = new byte[4];
-				dataIn.read(idp);
-				AuthService authService = (AuthService) SpiderServerUtil.getInstance().getServerManager()
-						.getServer(AuthService.class);
-				if (!authService.authLogin(idb, idp)) {
-					userId = new String(idb);
-				}
-				// 发送会话令牌
-				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-				tempCookieId = UUID.randomUUID().toString();
-				byteArrayOut.write(0x11);
-				byteArrayOut.write(tempCookieId.length());
-				byteArrayOut.write(tempCookieId.getBytes());
-				tcpAcceptServer.sendOneClient(this, byteArrayOut.toByteArray());
+			// 退出
+			case 0xFFFF:
+				doLogout();
 				break;
 			// 令牌
 			case 0x02:
@@ -156,7 +142,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 				in.read(b);
 				// 生成会话令牌
 				if (tempCookieId.equals(new String(b))) {
-					cookieId = new String(b);
+					sessionId = new String(b);
 					// 通知所有人该用户登陆
 					// tcpAcceptServer.sendAllClients();
 					// 通知该用户相关信息
@@ -184,14 +170,53 @@ public class ClientServer extends AbstSpiderServerImpl {
 			case 0x012:
 				break;
 			}
-		} else {
-			// 该客户端未登录
-			//tcpAcceptServer.deleClientServer(this);
+		}
+
+	}
+
+	/**
+	 * 处理客户登录
+	 * 
+	 * @throws IOException
+	 */
+	private void doLogin() throws IOException {
+		byte[] idb = new byte[4];
+		dataIn.read(idb);
+		byte[] idp = new byte[4];
+		dataIn.read(idp);
+		AuthService authService = (AuthService) SpiderServerUtil.getInstance()
+				.getServerManager().getServer(AuthService.class);
+		if (!authService.authLogin(idb, idp)) {
+			userId = new String(idb);
+			// 发送会话令牌
+			ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+			sessionId = UUID.randomUUID().toString();
+			byteArrayOut.write(0x11);
+			byteArrayOut.write(sessionId.length());
+			byteArrayOut.write(sessionId.getBytes());
+			tcpAcceptServer.sendOneClient(this, byteArrayOut.toByteArray());
+			SpiderMessage message = new SpiderMessage();
+			message.setSm_type(0x02);
+			message.setData(sessionId.getBytes());
+			tcpAcceptServer.sendMessage(this, message);
 		}
 	}
 
 	/**
+	 * 处理用户退出
 	 * 
+	 * @throws IOException
+	 */
+	private void doLogout() throws IOException {
+		// 退出
+		SpiderMessage message = new SpiderMessage();
+		message.setSm_type(0xFFFF);
+		tcpAcceptServer.sendMessage(this, message);
+		tcpAcceptServer.deleClientServer(this);
+	}
+
+	/**
+	 * 销毁
 	 */
 	public void destroy() {
 		super.destroy();

@@ -17,178 +17,33 @@
  */
 package org.spider.client.impl;
 
-
 /**
  * @author yangguangftlp
  * @date 2015年1月17日
  */
 public class SpiderMessage {
-	
 	/**
-	 * 获取头信息
-	 * 
-	 * @param b
+	 * 消息类型
 	 */
-	private void readHeader(byte[] b) {
+	private int sm_type;
+	/**
+	 * 消息内容
+	 */
+	private byte[] data;
 
+	public int getSm_type() {
+		return sm_type;
 	}
 
-	/**
-	 * 获取命令
-	 * 
-	 * @param b
-	 */
-	private void readSessionKey(byte[] b) {
-
+	public void setSm_type(int sm_type) {
+		this.sm_type = sm_type;
 	}
 
-	/**
-	 * 发送者号码 4字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSenderNum(byte[] b) {
-		return null;
+	public byte[] getData() {
+		return data;
 	}
 
-	/**
-	 * 接受者号码 4字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readReceiverNum(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 包序号 4字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSequenceNum(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 发送者IP 4字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSenderIp(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 发送者端口 2字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSenderPort(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 消息类型 2字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readMessageType(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 发送者版本类型 2字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSenderVersion(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 发送时间 4字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSendTime(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 发送时间 4字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readSenderImg(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 获取字体 1字节 有一般是0x00000001
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readHasFontProperty(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 消息的分片数 1字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readMessageSliceNum(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 消息Id 2字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readMessageId(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 消息回复类型 2字节
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readMessageResponsesType(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 消息正文 消息正文
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readMessageBody(byte[] b) {
-		return null;
-	}
-
-	/**
-	 * 字体属性
-	 * 
-	 * @param b
-	 * @return
-	 */
-	private String readFontProperty(byte[] b) {
-		return null;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 }

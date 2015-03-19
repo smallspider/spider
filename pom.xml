@@ -29,5 +29,6 @@
 	<module>modules/spider-data-center</module>
     <module>modules/spider-client</module>
     <module>spider-data-center</module>
+    <module>spider-msg-engine</module>
   </modules>
 </project>
