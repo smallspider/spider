@@ -13,11 +13,6 @@ public class AuthService extends AbstSpiderServerImpl {
 		return null;
 	}
 
-	@Override
-	protected void execute() throws Exception {
-		// TODO Auto-generated method stub
-
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -36,5 +31,9 @@ public class AuthService extends AbstSpiderServerImpl {
 	 */
 	public boolean authLogin(byte[] userId, byte[] userPassword) {
 		return true;
+	}
+
+	public void run() {
+		
 	}
 }

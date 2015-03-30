@@ -48,12 +48,6 @@ public class TCPServer extends AbstSpiderServerImpl {
 		}
 	}
 
-	public void execute() throws Exception {
-		if (null != ss) {
-			tcpAcceptServer.acceptSocket(ss.accept());
-		}
-	}
-
 	public int status() {
 		return 0;
 	}
@@ -69,5 +63,28 @@ public class TCPServer extends AbstSpiderServerImpl {
 
 	public void setTcpAcceptServer(TCPAcceptServer tcpAcceptServer) {
 		this.tcpAcceptServer = tcpAcceptServer;
+	}
+
+	public void run() {
+		while (!isStop) {
+			try {
+				while (!isSuspend) {
+					Thread.sleep(threadSleep);
+					if (null != ss) {
+						tcpAcceptServer.acceptSocket(ss.accept());
+						System.out.println("连接成功!");
+					}
+				}
+				Thread.sleep(threadSleep);
+			} catch (IOException e) {
+				e.printStackTrace();
+				// 日志记录
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

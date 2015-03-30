@@ -36,7 +36,8 @@ public class UDPServer extends AbstSpiderServerImpl {
 	public void init() {
 		if (null != datagramSocket) {
 			try {
-				datagramSocket = new DatagramSocket(8008, InetAddress.getLocalHost());
+				datagramSocket = new DatagramSocket(8008,
+						InetAddress.getLocalHost());
 			} catch (Exception e) {
 				this.isStop = true;
 				e.printStackTrace();
@@ -47,8 +48,9 @@ public class UDPServer extends AbstSpiderServerImpl {
 
 	public void execute() throws Exception {
 		DataPacket dataPacket = DataPacketUtil.getInstance().get();
-		datagramSocket.send(new DatagramPacket(dataPacket.getData(), dataPacket.getOffset(), dataPacket.getLength(),
-				new InetSocketAddress(dataPacket.getAddress(), dataPacket.getPort())));
+		datagramSocket.send(new DatagramPacket(dataPacket.getData(), dataPacket
+				.getOffset(), dataPacket.getLength(), new InetSocketAddress(
+				dataPacket.getAddress(), dataPacket.getPort())));
 
 	}
 
@@ -63,6 +65,11 @@ public class UDPServer extends AbstSpiderServerImpl {
 	@Override
 	public Runnable getServerInstance() {
 		return this;
+	}
+
+	public void run() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

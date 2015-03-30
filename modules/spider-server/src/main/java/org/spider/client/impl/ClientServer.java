@@ -119,7 +119,6 @@ public class ClientServer extends AbstSpiderServerImpl {
 		this.out = out;
 	}
 
-	@Override
 	protected void execute() throws Exception {
 		// 获取登录信息
 		int flag = dataIn.readInt();

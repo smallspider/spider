@@ -1,7 +1,5 @@
 package org.spider.server.impl;
 
-import java.io.IOException;
-
 import org.spider.server.SpiderServer;
 
 /**
@@ -28,30 +26,10 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 			Thread thread = null;
 			if (null != runnable) {
 				thread = new Thread(runnable);
-				// thread.setDaemon(true);
+				thread.setDaemon(true);
 				thread.start();
 			}
 		}
-	}
-
-	public void run() {
-		while (!isStop) {
-			try {
-				while (isSuspend) {
-					Thread.sleep(threadSleep);
-					execute();
-				}
-				Thread.sleep(threadSleep);
-			} catch (IOException e) {
-				e.printStackTrace();
-				// 日志记录
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	public void stop() {
@@ -73,13 +51,6 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 	public void destroy() {
 		isStop = true;
 	}
-
-	/**
-	 * 服务运行
-	 * 
-	 * @throws Exception
-	 */
-	protected abstract void execute() throws Exception;
 
 	/**
 	 * 获取服务实体
