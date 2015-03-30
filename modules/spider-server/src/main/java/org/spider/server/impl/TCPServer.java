@@ -29,7 +29,7 @@ import java.net.ServerSocket;
  */
 public class TCPServer extends AbstSpiderServerImpl {
 
-	private ServerSocket ss;
+	private ServerSocket serverSocket;
 	private String ip;
 	private int port;
 	private TCPAcceptServer tcpAcceptServer;
@@ -42,7 +42,8 @@ public class TCPServer extends AbstSpiderServerImpl {
 
 	public void init() {
 		try {
-			ss = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
+			System.out.println("ip:" + serverSocket.getInetAddress());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,26 +66,11 @@ public class TCPServer extends AbstSpiderServerImpl {
 		this.tcpAcceptServer = tcpAcceptServer;
 	}
 
-	public void run() {
-		while (!isStop) {
-			try {
-				while (!isSuspend) {
-					Thread.sleep(threadSleep);
-					if (null != ss) {
-						tcpAcceptServer.acceptSocket(ss.accept());
-						System.out.println("连接成功!");
-					}
-				}
-				Thread.sleep(threadSleep);
-			} catch (IOException e) {
-				e.printStackTrace();
-				// 日志记录
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	@Override
+	protected void execute() throws Exception {
+		if (null != tcpAcceptServer) {
+			tcpAcceptServer.acceptSocket(serverSocket.accept());
+			System.out.println("连接成功!");
 		}
-
 	}
 }

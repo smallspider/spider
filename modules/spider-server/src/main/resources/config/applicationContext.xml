@@ -30,7 +30,9 @@
 	<bean id="tcpServer" class="org.spider.server.impl.TCPServer">
 	  <constructor-arg name="ip" value="127.0.0.1"/>
 	  <constructor-arg name="port" value="8502"/>
+	  <property name="tcpAcceptServer" ref="tcpAcceptServer"/>
 	</bean>
+	<bean id="tcpAcceptServer" class="org.spider.server.impl.TCPAcceptServer"/>
 	
 	<!-- 服务管理器 -->
 	<bean id="" class="org.spider.server.manage.impl.SpiderServerManager"
@@ -38,6 +40,7 @@
 		<constructor-arg>
 			<array>
 				<ref bean="tcpServer"/>
+				<ref bean="tcpAcceptServer"/>
 			</array>
 		</constructor-arg>
 	</bean>

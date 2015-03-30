@@ -144,9 +144,4 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 		}
 	}
 
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
