@@ -4,10 +4,12 @@
 package org.spider.msg.engine;
 
 /**
+ * 消息引擎
+ * 
  * @author yangguangftlp
- *
- * 2015年3月19日
+ * 
+ *         2015年3月19日
  */
-public class MessageEngine {
-
+public interface MessageEngine {
+	void init();
 }

@@ -26,12 +26,18 @@
 	<context:component-scan base-package="org.spider">
 		<!-- <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
 	</context:component-scan>
+	<!-- 服务 -->
+	<bean id="tcpServer" class="org.spider.server.impl.TCPServer">
+	  <constructor-arg name="ip" value="127.0.0.1"/>
+	  <constructor-arg name="port" value="8502"/>
+	</bean>
+	
 	<!-- 服务管理器 -->
 	<bean id="" class="org.spider.server.manage.impl.SpiderServerManager"
 		init-method="init">
 		<constructor-arg>
 			<array>
-				<value>org.spider.server.impl.UDPServer</value>
+				<ref bean="tcpServer"/>
 			</array>
 		</constructor-arg>
 	</bean>

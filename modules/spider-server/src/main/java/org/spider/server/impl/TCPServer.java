@@ -30,13 +30,14 @@ import java.net.ServerSocket;
 public class TCPServer extends AbstSpiderServerImpl {
 
 	private ServerSocket ss;
+	private String ip;
 	private int port;
 	private TCPAcceptServer tcpAcceptServer;
 
-	public TCPServer(int port) {
+	public TCPServer(String ip, int port) {
 		super();
+		this.ip = ip;
 		this.port = port;
-		init();
 	}
 
 	public void init() {

@@ -3,7 +3,6 @@
  */
 package org.spider.client.impl;
 
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -30,7 +29,6 @@ public class ClientServer extends AbstSpiderServerImpl {
 	private OutputStream out;
 	private DataInputStream dataIn;
 	private DataOutputStream dataOut;
-
 	private String userId;
 	private TCPAcceptServer tcpAcceptServer;
 	private String sessionId;
@@ -189,12 +187,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 		if (!authService.authLogin(idb, idp)) {
 			userId = new String(idb);
 			// 发送会话令牌
-			ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
 			sessionId = UUID.randomUUID().toString();
-			byteArrayOut.write(0x11);
-			byteArrayOut.write(sessionId.length());
-			byteArrayOut.write(sessionId.getBytes());
-			tcpAcceptServer.sendOneClient(this, byteArrayOut.toByteArray());
 			SpiderMessage message = new SpiderMessage();
 			message.setSm_type(0x02);
 			message.setData(sessionId.getBytes());

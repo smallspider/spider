@@ -132,25 +132,6 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 		}
 	}
 
-	/**
-	 * 给某个客户端发送消息
-	 * 
-	 * @param clientServer
-	 * 
-	 * @param b
-	 */
-	public void sendOneClient(ClientServer cs, byte[] b) {
-
-		if (SpiderConstants.SERVER_RUN == cs.status) {
-			try {
-				cs.getOut().write(b);
-				cs.getOut().flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public void sendMessage(ClientServer cs, SpiderMessage message) {
 		if (SpiderConstants.SERVER_RUN == cs.status) {
 			try {

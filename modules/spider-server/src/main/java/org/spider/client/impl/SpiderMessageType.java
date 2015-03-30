@@ -10,6 +10,6 @@ package org.spider.client.impl;
  * 
  *         2015年3月19日
  */
-public class SpiderMessageType {
+public enum SpiderMessageType {
 
 }

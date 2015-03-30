@@ -3,14 +3,11 @@ package org.spider.server.manage.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.LogFactoryImpl;
 import org.spider.server.SpiderServer;
 import org.spider.server.manage.ServerManage;
-import org.spider.server.util.SpiderClassLoaderUtil;
 import org.spider.server.util.SpiderServerUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -21,14 +18,14 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 	private static Log LOGGER = LogFactoryImpl.getLog(SpiderServerManager.class);
 	private List<SpiderServer> spiderServers = new ArrayList<SpiderServer>();
 
-	public SpiderServerManager(String[] serverClassNames) {
+	public SpiderServerManager(Object[] servers) {
 		super();
-		Object[] objects = SpiderClassLoaderUtil.getInstance().newInstance(serverClassNames);
-		LOGGER.debug("the load server :" + Arrays.toString(serverClassNames));
-		if (null != objects) {
-			for (Object object : objects) {
-				if (object instanceof SpiderServer) {
-					spiderServers.add((SpiderServer) object);
+		//Object[] objects = SpiderClassLoaderUtil.getInstance().newInstance(serverClassNames);
+		LOGGER.debug("the load server :" + Arrays.toString(servers));
+		if (null != servers) {
+			for (Object server : servers) {
+				if (server instanceof SpiderServer) {
+					spiderServers.add((SpiderServer) server);
 				}
 			}
 		}
@@ -59,9 +56,9 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 		// 初始化服务
 
 		for (SpiderServer spiderServer : spiderServers) {
-			LOGGER.info("the server " + spiderServer.name() + " is init  ");
+			LOGGER.info("the server " + spiderServer.getClass().getName() + " is init  ");
 			spiderServer.init();
-			LOGGER.info("the server " + spiderServer.name() + " is start");
+			LOGGER.info("the server " + spiderServer.getClass().getName() + " is start");
 			spiderServer.start();
 		}
 	}
