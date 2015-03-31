@@ -35,6 +35,8 @@ public class AuthService extends AbstSpiderServerImpl {
 	 * @return
 	 */
 	public boolean authLogin(byte[] userId, byte[] userPassword) {
+		System.out.println("name：" + new String(userId) + "  password:"
+				+ new String(userPassword));
 		return true;
 	}
 }

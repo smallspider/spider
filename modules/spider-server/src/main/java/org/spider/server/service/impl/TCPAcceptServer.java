@@ -20,6 +20,7 @@ package org.spider.server.service.impl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -44,7 +45,8 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 		init();
 		ClientServer cs = new ClientServer(this, socket);
 		clientServers.add(cs);
-		new Thread(cs).start();
+		cs.start();
+		System.out.println(socket.getInetAddress() + ",连接成功!");
 	}
 
 	public void init() {

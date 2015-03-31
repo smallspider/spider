@@ -70,7 +70,6 @@ public class TCPServer extends AbstSpiderServerImpl {
 	protected void execute() throws Exception {
 		if (null != tcpAcceptServer) {
 			tcpAcceptServer.acceptSocket(serverSocket.accept());
-			System.out.println("连接成功!");
 		}
 	}
 }

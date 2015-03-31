@@ -24,6 +24,13 @@ package org.spider.server.service;
 public interface SpiderServer extends Runnable {
 
 	/**
+	 * 设置休眠时间
+	 * 
+	 * @param tleepTime
+	 */
+	void setSleepTime(int tleepTime);
+
+	/**
 	 * 初始化
 	 */
 	void init();

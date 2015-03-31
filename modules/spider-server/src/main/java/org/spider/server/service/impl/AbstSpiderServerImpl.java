@@ -38,10 +38,10 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 		while (!isStop) {
 			try {
 				while (!isSuspend) {
-					Thread.sleep(threadSleep);
+					Thread.sleep(getSleepTime());
 					execute();
 				}
-				Thread.sleep(threadSleep);
+				Thread.sleep(getSleepTime());
 			} catch (IOException e) {
 				e.printStackTrace();
 				// 日志记录
@@ -72,6 +72,14 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 
 	public void destroy() {
 		isStop = true;
+	}
+
+	protected int getSleepTime() {
+		return threadSleep;
+	}
+
+	public void setSleepTime(int sleepTime) {
+		this.threadSleep = sleepTime;
 	}
 
 	/**

@@ -27,15 +27,15 @@
 		<!-- <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
 	</context:component-scan>
 	<!-- 服务 -->
-	<bean id="tcpServer" class="org.spider.server.impl.TCPServer">
+	<bean id="tcpServer" class="org.spider.server.service.impl.TCPServer">
 	  <constructor-arg name="ip" value="127.0.0.1"/>
 	  <constructor-arg name="port" value="8502"/>
 	  <property name="tcpAcceptServer" ref="tcpAcceptServer"/>
 	</bean>
-	<bean id="tcpAcceptServer" class="org.spider.server.impl.TCPAcceptServer"/>
+	<bean id="tcpAcceptServer" class="org.spider.server.service.impl.TCPAcceptServer"/>
 	
 	<!-- 服务管理器 -->
-	<bean id="" class="org.spider.server.manage.impl.SpiderServerManager"
+	<bean id="" class="org.spider.server.service.manage.impl.SpiderServerManager"
 		init-method="init">
 		<constructor-arg>
 			<array>

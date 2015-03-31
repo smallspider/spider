@@ -13,6 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+@SuppressWarnings("unchecked")
 public class SpiderServerManager extends ServerManage implements ApplicationContextAware {
 
 	private static Log LOGGER = LogFactoryImpl.getLog(SpiderServerManager.class);
@@ -20,7 +21,8 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 
 	public SpiderServerManager(Object[] servers) {
 		super();
-		//Object[] objects = SpiderClassLoaderUtil.getInstance().newInstance(serverClassNames);
+		// Object[] objects =
+		// SpiderClassLoaderUtil.getInstance().newInstance(serverClassNames);
 		LOGGER.debug("the load server :" + Arrays.toString(servers));
 		if (null != servers) {
 			for (Object server : servers) {
@@ -35,10 +37,10 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 		return spiderServers;
 	}
 
-	public SpiderServer getServer(Class<?> cls) {
+	public <T> T getServer(Class<T> cls) {
 		for (SpiderServer spiderServer : spiderServers) {
 			if (spiderServer.getClass().getSimpleName() == cls.getSimpleName()) {
-				return spiderServer;
+				return (T) spiderServer;
 			}
 		}
 		return null;
@@ -56,9 +58,11 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 		// 初始化服务
 
 		for (SpiderServer spiderServer : spiderServers) {
-			LOGGER.info("the server " + spiderServer.getClass().getName() + " is init  ");
+			LOGGER.info("the server " + spiderServer.getClass().getName()
+					+ " is init  ");
 			spiderServer.init();
-			LOGGER.info("the server " + spiderServer.getClass().getName() + " is start");
+			LOGGER.info("the server " + spiderServer.getClass().getName()
+					+ " is start");
 			spiderServer.start();
 		}
 	}
@@ -69,7 +73,8 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 		}
 	}
 
-	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
+	public void setApplicationContext(ApplicationContext arg0)
+			throws BeansException {
 		SpiderServerUtil.getInstance().setApplicationContext(arg0);
 		SpiderServerUtil.getInstance().setServerManager(this);
 	}
