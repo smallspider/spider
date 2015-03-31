@@ -11,10 +11,10 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import org.spider.server.impl.AbstSpiderServerImpl;
-import org.spider.server.impl.AuthService;
-import org.spider.server.impl.TCPAcceptServer;
-import org.spider.server.util.SpiderServerUtil;
+import org.spider.service.impl.AbstSpiderServerImpl;
+import org.spider.service.impl.AuthService;
+import org.spider.service.impl.TCPAcceptServer;
+import org.spider.service.util.SpiderServerUtil;
 
 /**
  * 客户端服务
