@@ -40,8 +40,8 @@ public class ClientServer extends AbstSpiderServerImpl {
 		try {
 			this.in = socket.getInputStream();
 			this.out = socket.getOutputStream();
-			this.dataIn = new DataInputStream(in);
-			this.dataOut = new DataOutputStream(out);
+			//this.dataIn = new DataInputStream(in);
+			//this.dataOut = new DataOutputStream(out);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,23 +71,6 @@ public class ClientServer extends AbstSpiderServerImpl {
 
 	public int status() {
 		return status;
-	}
-
-	public void run() {
-		while (!isStop) {
-			try {
-				while (isSuspend) {
-					Thread.sleep(threadSleep);
-					execute();
-				}
-				Thread.sleep(threadSleep);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	@Override
@@ -121,7 +104,8 @@ public class ClientServer extends AbstSpiderServerImpl {
 
 	protected void execute() throws Exception {
 		// 获取登录信息
-		int flag = dataIn.readInt();
+		int flag = in.read();
+		System.out.println("----------------- flag:" + flag);
 		if (null == sessionId || 0x01 == flag) {
 			doLogin();
 		} else {

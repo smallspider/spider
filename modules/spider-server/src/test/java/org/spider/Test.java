@@ -1,12 +1,8 @@
 package org.spider;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -15,11 +11,16 @@ public class Test {
 
 	class myThread extends Thread {
 		Socket clientSocket;
+		InputStream in;
+		OutputStream out;
 
 		myThread() {
 			try {
-				clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 8502);
-			    System.out.println(InetAddress.getByName("127.0.0.1"));
+				clientSocket = new Socket(InetAddress.getByName("127.0.0.1"),
+						8502);
+				out = clientSocket.getOutputStream();
+				in = clientSocket.getInputStream();
+				System.out.println(InetAddress.getByName("127.0.0.1"));
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -31,21 +32,18 @@ public class Test {
 
 		@Override
 		public void run() {
-			InputStream in;
-			OutputStream out;
 			while (true)
 				try {
-					System.out.println(clientSocket.isClosed());
-					out = clientSocket.getOutputStream();
-					in = clientSocket.getInputStream();
-					out.write("tf123".getBytes());
-					out.write("tf123".getBytes());
+					out.write(0x01);
+					//out.write("tf123".getBytes());
+					//out.write("tf123".getBytes());
 					out.flush();
 					Thread.sleep(1000 * 5);
+					System.out.println(in.read());
+					break;
 				} catch (IOException e1) {
-					System.out.print("接收文件通过Socket连接文件服务器异常");
+					System.out.println("接收文件通过Socket连接文件服务器异常"+e1);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
