@@ -38,8 +38,7 @@ import org.spider.server.service.constant.SpiderConstants;
  */
 public class TCPAcceptServer extends AbstSpiderServerImpl {
 
-	private List<ClientServer> clientServers = Collections
-			.synchronizedList(new ArrayList<ClientServer>());
+	private List<ClientServer> clientServers = Collections.synchronizedList(new ArrayList<ClientServer>());
 
 	public void acceptSocket(Socket socket) {
 		init();
@@ -54,17 +53,14 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 
 	public void execute() {
 		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(
-				clientServers).iterator();
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
 			if (SpiderConstants.SERVER_STOP == cs.status) {
 				cs.destroy();
 				clientServers.remove(cs);
-			} else {
-				new Thread(cs).start();
-			}
+			} 
 		}
 	}
 

@@ -14,7 +14,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import org.apache.commons.io.IOUtils;
 import org.spider.server.service.impl.AbstSpiderServerImpl;
 import org.spider.server.service.impl.AuthService;
 import org.spider.server.service.impl.TCPAcceptServer;
