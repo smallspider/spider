@@ -7,4 +7,11 @@
     <relativePath>../..</relativePath>
   </parent>
   <artifactId>spider-data-center</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.mybatis</groupId>
+  		<artifactId>mybatis</artifactId>
+  		<version>3.2.8</version>
+  	</dependency>
+  </dependencies>
 </project>
