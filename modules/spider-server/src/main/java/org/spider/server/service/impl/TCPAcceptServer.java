@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.spider.server.client.impl.ClientServer;
 import org.spider.server.client.impl.SpiderMessage;
 import org.spider.server.service.constant.SpiderConstants;
 
@@ -37,11 +36,11 @@ import org.spider.server.service.constant.SpiderConstants;
  */
 public class TCPAcceptServer extends AbstSpiderServerImpl {
 
-	private List<ClientServer> clientServers = Collections.synchronizedList(new ArrayList<ClientServer>());
+	private List<ClientWorker> clientServers = Collections.synchronizedList(new ArrayList<ClientWorker>());
 
 	public void acceptSocket(Socket socket) {
 		init();
-		ClientServer cs = new ClientServer(this, socket);
+		ClientWorker cs = new ClientWorker(this, socket);
 		cs.start();
 		System.out.println(socket.getInetAddress() + ",连接成功!");
 	}
@@ -50,8 +49,8 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	}
 
 	public void execute() {
-		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		ClientWorker cs = null;
+		Iterator<ClientWorker> iterator = new ArrayList<ClientWorker>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -63,8 +62,8 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	}
 
 	public void sendAllClients(String str) {
-		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		ClientWorker cs = null;
+		Iterator<ClientWorker> iterator = new ArrayList<ClientWorker>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -90,9 +89,9 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	 * @param socket
 	 * @param clientServer
 	 */
-	public void deleClientServer(ClientServer clientServer) {
-		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+	public void deleClientServer(ClientWorker clientServer) {
+		ClientWorker cs = null;
+		Iterator<ClientWorker> iterator = new ArrayList<ClientWorker>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -109,8 +108,8 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	 */
 	public void sendAllClients(byte[] b) {
 		System.out.println(new String(b));
-		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
+		ClientWorker cs = null;
+		Iterator<ClientWorker> iterator = new ArrayList<ClientWorker>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -125,7 +124,7 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 		}
 	}
 
-	public void sendMessage(ClientServer cs, SpiderMessage message) {
+	public void sendMessage(ClientWorker cs, SpiderMessage message) {
 		if (SpiderConstants.SERVER_RUN == cs.status) {
 			try {
 				cs.getOut().write(message.getVersion().getBytes());

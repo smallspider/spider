@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.spider.server.client.impl;
+package org.spider.server.service.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -13,12 +13,11 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import org.spider.server.client.SpiderMessageFactory;
+import org.spider.server.client.impl.SpiderMessage;
 import org.spider.server.service.impl.AbstSpiderServerImpl;
 import org.spider.server.service.impl.AuthService;
 import org.spider.server.service.impl.TCPAcceptServer;
 import org.spider.server.service.util.SpiderServerUtil;
-
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 /**
  * 客户端服务
@@ -27,19 +26,17 @@ import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
  * 
  *         2015年1月14日
  */
-public class ClientServer extends AbstSpiderServerImpl {
+public class ClientWorker extends AbstSpiderServerImpl {
 	private Socket socket;
 	private InputStream in;
 	private BufferedOutputStream out;
 	ByteArrayInputStream bin;
-	// private DataInputStream dataIn;
-	// private DataOutputStream dataOut;
 	private String userId;
 	private TCPAcceptServer tcpAcceptServer;
 	private String sessionId;
 	String tempCookieId = null;
 
-	public ClientServer(TCPAcceptServer tcpAcceptServer, Socket socket) {
+	public ClientWorker(TCPAcceptServer tcpAcceptServer, Socket socket) {
 		this.tcpAcceptServer = tcpAcceptServer;
 		this.socket = socket;
 		try {

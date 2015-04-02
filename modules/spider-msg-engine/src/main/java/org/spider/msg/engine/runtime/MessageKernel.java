@@ -8,6 +8,6 @@ package org.spider.msg.engine.runtime;
  *
  * 2015年3月19日
  */
-public class MessageKernel {
+public interface MessageKernel {
 
 }
