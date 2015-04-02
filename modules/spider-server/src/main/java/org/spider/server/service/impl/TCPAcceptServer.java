@@ -43,7 +43,7 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	public void acceptSocket(Socket socket) {
 		init();
 		ClientServer cs = new ClientServer(this, socket);
-		clientServers.add(cs);
+		//clientServers.add(cs);
 		cs.start();
 		System.out.println(socket.getInetAddress() + ",连接成功!");
 	}

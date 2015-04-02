@@ -29,16 +29,19 @@ public class Test {
 				 * "tf123".getBytes(); out.write(b1.length); out.write(b1);
 				 * out.write(b2.length); out.write(b2); out.flush();
 				 */
-				bout.write(0x01);
+				
+				bout.write("1.0".getBytes());
+				bout.write((short)0x01);
 				byte[] b1 = "tf123".getBytes();
 				byte[] b2 = "tf123".getBytes();
-				bout.write((byte)b1.length);
+				bout.write((byte) b1.length);
 				bout.write(b1);
-				bout.write((byte)b2.length);
+				bout.write((byte) b2.length);
 				bout.write(b2);
+				bout.write((byte) -1);
 				bout.flush();
 				System.out
-						.println("------------" + new String(bout.getBytes()));
+						.println("------------" + new String(bout.getBytes())+"\r\n----------"+bout.getBytes().length);
 				out.write(bout.getBytes());
 				out.flush();
 				byte[] data = new byte[20];
@@ -46,12 +49,9 @@ public class Test {
 				System.out.println("data:" + new String(data));
 				if (l != -1)
 					System.out.println(new String(data, 0, l));
-				Thread.sleep(1000 * 50);
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

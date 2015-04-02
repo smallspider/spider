@@ -17,6 +17,8 @@
  */
 package org.spider.server.client.impl;
 
+import java.io.EOFException;
+
 /**
  * @author yangguangftlp
  * @date 2015年1月17日
@@ -26,6 +28,14 @@ public class SpiderMessage {
 	 * 消息类型
 	 */
 	private int sm_type;
+	/**
+	 * 命令类型
+	 */
+	private short commandType;
+	/**
+	 * 版本
+	 */
+	private String version;
 	/**
 	 * 消息内容
 	 */
@@ -45,5 +55,21 @@ public class SpiderMessage {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public short getCommandType() {
+		return commandType;
+	}
+
+	public void setCommandType(short commandType) throws EOFException {
+		this.commandType = commandType;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 }

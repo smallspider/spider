@@ -39,7 +39,7 @@ public class SpiderServerManager extends ServerManage implements ApplicationCont
 
 	public <T> T getServer(Class<T> cls) {
 		for (SpiderServer spiderServer : spiderServers) {
-			if (spiderServer.getClass().getSimpleName() == cls.getSimpleName()) {
+			if (spiderServer.getClass().getSimpleName().equals(cls.getSimpleName())) {
 				return (T) spiderServer;
 			}
 		}

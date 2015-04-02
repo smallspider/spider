@@ -3,23 +3,21 @@
  */
 package org.spider.server.client.impl;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.UUID;
 
+import org.spider.server.client.SpiderMessageFactory;
 import org.spider.server.service.impl.AbstSpiderServerImpl;
 import org.spider.server.service.impl.AuthService;
 import org.spider.server.service.impl.TCPAcceptServer;
 import org.spider.server.service.util.SpiderServerUtil;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 /**
@@ -31,7 +29,7 @@ import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
  */
 public class ClientServer extends AbstSpiderServerImpl {
 	private Socket socket;
-	private BufferedInputStream in;
+	private InputStream in;
 	private BufferedOutputStream out;
 	ByteArrayInputStream bin;
 	// private DataInputStream dataIn;
@@ -45,7 +43,7 @@ public class ClientServer extends AbstSpiderServerImpl {
 		this.tcpAcceptServer = tcpAcceptServer;
 		this.socket = socket;
 		try {
-			this.in = new BufferedInputStream(socket.getInputStream());
+			this.in = socket.getInputStream();
 			this.out = new BufferedOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -102,51 +100,15 @@ public class ClientServer extends AbstSpiderServerImpl {
 		return out;
 	}
 
-	
-	/*public void run() {
-		while (!isStop) {
-			try {
-				while (!isSuspend) {
-					Thread.sleep(getSleepTime());
-					execute();
-				}
-				Thread.sleep(getSleepTime());
-			} catch (IOException e) {
-				e.printStackTrace();
-				// 日志记录
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-	}*/
-	
 	protected void execute() throws Exception {
-		if (socket.isClosed()) {
-			return;
-		}
 		// 获取登录信息
-		byte[] buff = new byte[80000];
-		int rc = 0;
-		ByteOutputStream swapStream = new ByteOutputStream();
-		// bin = new ByteArrayInputStream(swapStream.getBytes());
-		if (in.available() <= 0) {
-			return;
-		}
-		//IOUtils.copy(in, swapStream);
-		System.out.println("----------------- 等待读取...");
-		int flag = in.read(buff, 0, buff.length);
-		bin = new ByteArrayInputStream(swapStream.getBytes());
-		//bin = new ByteArrayInputStream(buff, 0, flag);
-		//System.out.println("----------------- flag:" + flag + " "+ new String(buff, 0, flag));
-		 flag = bin.read();
-		if (null == sessionId || 0x01 == flag) {
-			doLogin(bin);
+		SpiderMessage sm = SpiderMessageFactory.getInstance().createSpiderMessage(in);
+		int commandType = sm.getCommandType();
+		if (null == sessionId || 0x01 == commandType) {
+			doLogin(sm);
 		} else {
 			// 登录成功后进行业务处理
-			switch (flag) {
+			switch (commandType) {
 			// 退出
 			case 0xFFFF:
 				doLogout();
@@ -191,40 +153,53 @@ public class ClientServer extends AbstSpiderServerImpl {
 
 	}
 
+	protected byte[] readByte(InputStream in) {
+		try {
+
+			int total = 0;
+			while (total == 0) {
+				total = in.available();
+			}
+			byte[] data = new byte[total];
+			in.read(data, 0, total);
+			return data;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 * 处理客户登录
 	 * 
 	 * @throws IOException
 	 */
-	private void doLogin(InputStream in) throws IOException {
-		byte[] bname = null;
-		byte[] bpassword = null;
-		int flag = -1;
-		// 获取用户名长度
-		flag = in.read();
-		if (-1 != flag) {
-			bname = new byte[flag];
-			in.read(bname);
-		}
-		// 读取用户密码
-		flag = in.read();
-		if (-1 != flag) {
-			bpassword = new byte[flag];
-			in.read(bpassword);
-		}
-		AuthService authService = SpiderServerUtil.getInstance()
-				.getServerManager().getServer(AuthService.class);
-		
-		System.out.println("name：" + new String(bname) + "  password:"+ new String(bpassword));
-		if (null != authService && authService.authLogin(bname, bpassword)) {
-			userId = new String(bname);
+	private void doLogin(SpiderMessage spiderMessage) throws IOException {
+		String name = null;
+		String password = null;
+		byte[] bytes = spiderMessage.getData();
+		int index = 0;
+		int length = 0;
+		System.out.println(new String(bytes));
+		length = Arrays.copyOfRange(bytes, index, 1)[0];
+		index += 1;
+		name = new String(Arrays.copyOfRange(bytes, index, length));
+		index += length;
+		length = Arrays.copyOfRange(bytes, index, index + 1)[0];
+		index += 1;
+		password = new String(Arrays.copyOfRange(bytes, index, index + length));
+		AuthService authService = SpiderServerUtil.getInstance().getServerManager().getServer(AuthService.class);
+		if (null != authService && authService.authLogin(name, password)) {
+			userId = new String(name);
 			// 发送会话令牌
 			sessionId = UUID.randomUUID().toString();
 			SpiderMessage message = new SpiderMessage();
 			message.setSm_type(0x02);
+			message.setVersion("1.0");
+			message.setCommandType((short) 0x02);
 			message.setData(sessionId.getBytes());
 			tcpAcceptServer.sendMessage(this, message);
-			System.out.println("----用户：" + String.valueOf(bname) + "登录成功!");
+			System.out.println("----用户：" + String.valueOf(name) + "登录成功!");
 		}
 	}
 

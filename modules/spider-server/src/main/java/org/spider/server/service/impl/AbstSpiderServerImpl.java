@@ -3,6 +3,7 @@ package org.spider.server.service.impl;
 import java.io.IOException;
 
 import org.spider.server.service.SpiderServer;
+import org.spider.server.service.constant.SpiderConstants;
 
 /**
  * 
@@ -30,6 +31,7 @@ public abstract class AbstSpiderServerImpl implements SpiderServer {
 				thread = new Thread(runnable);
 				// thread.setDaemon(true);
 				thread.start();
+				this.status = SpiderConstants.SERVER_RUN;
 			}
 		}
 	}

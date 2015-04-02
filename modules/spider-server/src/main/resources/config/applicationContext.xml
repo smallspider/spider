@@ -33,6 +33,7 @@
 	  <property name="tcpAcceptServer" ref="tcpAcceptServer"/>
 	</bean>
 	<bean id="tcpAcceptServer" class="org.spider.server.service.impl.TCPAcceptServer"/>
+	<bean id="authService" class="org.spider.server.service.impl.AuthService"/>
 	
 	<!-- 服务管理器 -->
 	<bean id="" class="org.spider.server.service.manage.impl.SpiderServerManager"
@@ -41,6 +42,7 @@
 			<array>
 				<ref bean="tcpServer"/>
 				<ref bean="tcpAcceptServer"/>
+				<ref bean="authService"/>
 			</array>
 		</constructor-arg>
 	</bean>
