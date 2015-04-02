@@ -20,7 +20,6 @@ package org.spider.server.service.impl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -43,7 +42,6 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	public void acceptSocket(Socket socket) {
 		init();
 		ClientServer cs = new ClientServer(this, socket);
-		//clientServers.add(cs);
 		cs.start();
 		System.out.println(socket.getInetAddress() + ",连接成功!");
 	}
@@ -60,14 +58,13 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 			if (SpiderConstants.SERVER_STOP == cs.status) {
 				cs.destroy();
 				clientServers.remove(cs);
-			} 
+			}
 		}
 	}
 
 	public void sendAllClients(String str) {
 		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(
-				clientServers).iterator();
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -95,8 +92,7 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	 */
 	public void deleClientServer(ClientServer clientServer) {
 		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(
-				clientServers).iterator();
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -114,8 +110,7 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	public void sendAllClients(byte[] b) {
 		System.out.println(new String(b));
 		ClientServer cs = null;
-		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(
-				clientServers).iterator();
+		Iterator<ClientServer> iterator = new ArrayList<ClientServer>(clientServers).iterator();
 		while (iterator.hasNext()) {
 			// 遍历拦截器
 			cs = iterator.next();
@@ -133,7 +128,8 @@ public class TCPAcceptServer extends AbstSpiderServerImpl {
 	public void sendMessage(ClientServer cs, SpiderMessage message) {
 		if (SpiderConstants.SERVER_RUN == cs.status) {
 			try {
-				cs.getOut().write(message.getSm_type());
+				cs.getOut().write(message.getVersion().getBytes());
+				cs.getOut().write(message.getCommandType());
 				cs.getOut().write(message.getData());
 				cs.getOut().flush();
 			} catch (IOException e) {
