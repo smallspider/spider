@@ -42,20 +42,16 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
-import org.foxbpm.engine.exception.FoxBPMException;
-import org.foxbpm.engine.impl.ProcessEngineConfigurationImpl;
-import org.foxbpm.engine.impl.interceptor.Session;
-import org.foxbpm.engine.impl.util.ExceptionUtil;
-import org.foxbpm.engine.sqlsession.ISqlSession;
-import org.foxbpm.engine.sqlsession.ISqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spider.data.center.interceptor.Session;
+import org.spider.data.center.interceptor.SessionFactory;
 
-public class MyBatisSqlSessionFactory implements ISqlSessionFactory {
+public class MyBatisSqlSessionFactory implements SessionFactory {
 
 	Logger log = LoggerFactory.getLogger(MyBatisSqlSessionFactory.class);
 	private SqlSessionFactory sqlSessionFactory;
-	
+/*	
 	protected static final Map<String, Map<String, String>> databaseSpecificStatements = new HashMap<String, Map<String,String>>();
 	  
 	public static final Map<String, String> databaseSpecificLimitBeforeStatements = new HashMap<String, String>();
@@ -199,6 +195,12 @@ public class MyBatisSqlSessionFactory implements ISqlSessionFactory {
 
 	public Session openSession() {
 		return new MybatisSqlSession(getSqlSession());
+	}*/
+	public Class<?> getSessionType() {
+		return null;
+	}
+	public Session openSession() {
+		return null;
 	}
 	
 	

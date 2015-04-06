@@ -20,12 +20,10 @@ package org.spider.data.center.mybatis;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.foxbpm.engine.impl.interceptor.Session;
-import org.foxbpm.engine.sqlsession.ISqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MybatisSqlSession implements  Session {
+public class MybatisSqlSession implements org.spider.data.center.interceptor.Session {
 
 	SqlSession sqlSession;
 	public static Logger log = LoggerFactory.getLogger(MybatisSqlSession.class);
