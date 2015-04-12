@@ -40,7 +40,7 @@ public class CopyOfJDKAudioRecorder extends Thread {
 	}
 
 	public static void AudioRecorder() {
-		String Filename = "d:/JDKAudioRecord.wav ";
+		String Filename = "record.wav ";
 		File outputFile = new File(Filename);
 
 		// 我們一開始先在主程式裡指定聲音檔的檔名為
