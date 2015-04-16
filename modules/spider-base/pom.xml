@@ -6,10 +6,4 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>spider-base</artifactId>
-  <dependencies>
-  	<dependency>
-  		<groupId>dom4j</groupId>
-  		<artifactId>dom4j</artifactId>
-  	</dependency>
-  </dependencies>
 </project>
