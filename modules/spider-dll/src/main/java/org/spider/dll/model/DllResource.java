@@ -12,6 +12,7 @@ public class DllResource {
 	private String id;
 	private String osName;
 	private String path;
+	private String fileName;
 
 	public String getId() {
 		return id;
@@ -35,5 +36,13 @@ public class DllResource {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }

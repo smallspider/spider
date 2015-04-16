@@ -3,8 +3,11 @@
  */
 package org.spider.dll.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,38 +55,24 @@ public class OSCommandUtils {
 	private void init() {
 		InputStream in = null;
 		try {
+
+			OSPlatform osPlatform = OSinfoUtils.getOSname();
+			osDllResourceMap.put(osPlatform.name(), new ArrayList<String>());
+			osCommandMap.put(osPlatform.name(), new HashMap<Class<?>, OSCommand>());
+
 			in = SpiderClassLoader.getInstance().getResourceAsStream(spiderConfigPath);
 			spiderDllConfig = XMLToObjectUtil.getInstance().transform(in, SpiderDllConfig.class, true);
-			OSPlatform osPlatform = OSinfoUtils.getOSname();
-			if (null != spiderDllConfig && null != spiderDllConfig.getDllResources()) {
-				Iterator<DllResource> iterator = spiderDllConfig.getDllResources().iterator();
-				DllResource dllResource = null;
-				while (iterator.hasNext()) {
-					dllResource = iterator.next();
-					if (osPlatform.name().equalsIgnoreCase(dllResource.getOsName())) {
-						if (!osDllResourceMap.containsKey(osPlatform.name())) {
-							osDllResourceMap.put(osPlatform.name(), new ArrayList<String>());
-						} else {
-							//loadDllResource(dllResource.getPath());
-							//osDllResourceMap.get(osPlatform.name()).add();
-						}
-					}
-				}
-			}
 			if (null != spiderDllConfig && null != spiderDllConfig.getDllBeans()) {
 				Iterator<DllBean> iterator = spiderDllConfig.getDllBeans().iterator();
 				DllBean dllBean = null;
 				while (iterator.hasNext()) {
 					dllBean = iterator.next();
 					if (osPlatform.name().equalsIgnoreCase(dllBean.getOsName())) {
-						if (!osCommandMap.containsKey(osPlatform.name())) {
-							osCommandMap.put(osPlatform.name(), new HashMap<Class<?>, OSCommand>());
-						} else {
-							OSCommand osCommand = (OSCommand) SpiderClassLoader.getInstance().newInstance(
-									dllBean.getClassName());
-							osCommandMap.get(osPlatform.name()).put(osCommand.getType(), osCommand);
-							//
-
+						OSCommand osCommand = (OSCommand) SpiderClassLoader.getInstance().newInstance(
+								dllBean.getClassName());
+						osCommandMap.get(osPlatform.name()).put(osCommand.getType(), osCommand);
+						if (null != dllBean.getDllResource()) {
+							loadDllResource(dllBean.getDllResource());
 						}
 					}
 				}
@@ -94,6 +83,51 @@ public class OSCommandUtils {
 			if (null != in) {
 				try {
 					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void loadDllResource(DllResource dllResource) {
+		InputStream in = null;
+		OutputStream out = null;
+		try {
+			in = SpiderClassLoader.getInstance().getResourceAsStream(dllResource.getPath());
+			String tempDir = System.getProperty("java.io.tmpdir");
+			String path = tempDir + File.separator + dllResource.getPath() + File.separator + dllResource.getFileName();
+			File file = new File(path);
+			if (file.exists()) {
+				System.load(path);
+			} else {
+				// 将jar包中的dll资源,在默认的临时文件路径下重新生成dll文件
+				File fileDir = new File(tempDir, dllResource.getPath());
+				if (fileDir.exists()) {
+					fileDir.mkdirs();
+				}
+				out = new FileOutputStream(path);
+				byte[] bytes = new byte[1024];
+				while (in.read(bytes) != -1) {
+					out.write(bytes);
+				}
+				out.flush();
+				out.close();
+				// 加载
+				System.load(path);
+			}
+		} catch (Exception e) {
+		} finally {
+			if (null != in) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (null != out) {
+				try {
+					out.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
