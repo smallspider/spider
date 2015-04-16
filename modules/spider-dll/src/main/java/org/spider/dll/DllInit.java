@@ -26,7 +26,7 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.spider.dll.util.OSinfoUtils;
+import org.spider.base.util.OSinfoUtils;
 
 /**
  * @author yangguangftlp

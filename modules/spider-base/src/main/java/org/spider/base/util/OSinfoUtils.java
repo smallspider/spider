@@ -15,9 +15,9 @@
  * 
  * @author yangguangftlp
  */
-package org.spider.dll.util;
+package org.spider.base.util;
 
-import org.spider.dll.OSPlatform;
+import org.spider.base.OSPlatform;
 
 /**
  * @author yangguangftlp
@@ -25,10 +25,47 @@ import org.spider.dll.OSPlatform;
  */
 public class OSinfoUtils {
 	private static String OS = System.getProperty("os.name").toLowerCase();
-	private static OSinfoUtils _instance;
+	private static OSinfoUtils _instance = new OSinfoUtils();
 	private OSPlatform osPlatform;
 
 	private OSinfoUtils() {
+		if (isAix()) {
+			osPlatform = OSPlatform.AIX;
+		} else if (isDigitalUnix()) {
+			osPlatform = OSPlatform.Digital_Unix;
+		} else if (isFreeBSD()) {
+			osPlatform = OSPlatform.FreeBSD;
+		} else if (isHPUX()) {
+			osPlatform = OSPlatform.HP_UX;
+		} else if (isIrix()) {
+			osPlatform = OSPlatform.Irix;
+		} else if (isLinux()) {
+			osPlatform = OSPlatform.Linux;
+		} else if (isMacOS()) {
+			osPlatform = OSPlatform.Mac_OS;
+		} else if (isMacOSX()) {
+			osPlatform = OSPlatform.Mac_OS_X;
+		} else if (isMPEiX()) {
+			osPlatform = OSPlatform.MPEiX;
+		} else if (isNetWare()) {
+			osPlatform = OSPlatform.NetWare_411;
+		} else if (isOpenVMS()) {
+			osPlatform = OSPlatform.OpenVMS;
+		} else if (isOS2()) {
+			osPlatform = OSPlatform.OS2;
+		} else if (isOS390()) {
+			osPlatform = OSPlatform.OS390;
+		} else if (isOSF1()) {
+			osPlatform = OSPlatform.OSF1;
+		} else if (isSolaris()) {
+			osPlatform = OSPlatform.Solaris;
+		} else if (isSunOS()) {
+			osPlatform = OSPlatform.SunOS;
+		} else if (isWindows()) {
+			osPlatform = OSPlatform.Windows;
+		} else {
+			osPlatform = OSPlatform.Others;
+		}
 	}
 
 	public static boolean isLinux() {
@@ -105,43 +142,6 @@ public class OSinfoUtils {
 	 * @return 操作系统名
 	 */
 	public static OSPlatform getOSname() {
-		if (isAix()) {
-			_instance.osPlatform = OSPlatform.AIX;
-		} else if (isDigitalUnix()) {
-			_instance.osPlatform = OSPlatform.Digital_Unix;
-		} else if (isFreeBSD()) {
-			_instance.osPlatform = OSPlatform.FreeBSD;
-		} else if (isHPUX()) {
-			_instance.osPlatform = OSPlatform.HP_UX;
-		} else if (isIrix()) {
-			_instance.osPlatform = OSPlatform.Irix;
-		} else if (isLinux()) {
-			_instance.osPlatform = OSPlatform.Linux;
-		} else if (isMacOS()) {
-			_instance.osPlatform = OSPlatform.Mac_OS;
-		} else if (isMacOSX()) {
-			_instance.osPlatform = OSPlatform.Mac_OS_X;
-		} else if (isMPEiX()) {
-			_instance.osPlatform = OSPlatform.MPEiX;
-		} else if (isNetWare()) {
-			_instance.osPlatform = OSPlatform.NetWare_411;
-		} else if (isOpenVMS()) {
-			_instance.osPlatform = OSPlatform.OpenVMS;
-		} else if (isOS2()) {
-			_instance.osPlatform = OSPlatform.OS2;
-		} else if (isOS390()) {
-			_instance.osPlatform = OSPlatform.OS390;
-		} else if (isOSF1()) {
-			_instance.osPlatform = OSPlatform.OSF1;
-		} else if (isSolaris()) {
-			_instance.osPlatform = OSPlatform.Solaris;
-		} else if (isSunOS()) {
-			_instance.osPlatform = OSPlatform.SunOS;
-		} else if (isWindows()) {
-			_instance.osPlatform = OSPlatform.Windows;
-		} else {
-			_instance.osPlatform = OSPlatform.Others;
-		}
 		return _instance.osPlatform;
 	}
 }

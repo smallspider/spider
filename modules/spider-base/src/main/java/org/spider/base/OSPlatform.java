@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.spider.dll;
+package org.spider.base;
 
 /**
  * @author yangguangftlp

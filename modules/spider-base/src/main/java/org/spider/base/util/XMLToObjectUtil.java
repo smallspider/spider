@@ -62,6 +62,15 @@ public class XMLToObjectUtil {
 	 * @return
 	 */
 	public static XMLToObjectUtil getInstance(Class cls) {
+		return getInstance();
+	}
+
+	/**
+	 * 获取实例
+	 * 
+	 * @return
+	 */
+	public static XMLToObjectUtil getInstance() {
 		if (null == instance) {
 			synchronized (XMLToObjectUtil.class) {
 				if (null == instance) {
@@ -74,6 +83,8 @@ public class XMLToObjectUtil {
 
 	/**
 	 * 将xml转换Object
+	 * 
+	 * @param <T>
 	 * 
 	 * @param in
 	 *            文档对象
@@ -89,20 +100,22 @@ public class XMLToObjectUtil {
 	 * @throws DOMException
 	 * @throws ClassNotFoundException
 	 */
-	public Object transform(InputStream in, Class objClass, boolean flag) {
+	public <T> T transform(InputStream in, Class<T> objClass, boolean flag) {
 		if (null == in) {
 			throw new IllegalArgumentException("in is null!");
 		}
 		try {
-			return transform(new SAXReader().read(in), objClass, flag);
+			return (T) transform(new SAXReader().read(in), objClass, flag);
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		return flag;
+		return null;
 	}
 
 	/**
 	 * 将xml转换Object
+	 * 
+	 * @param <T>
 	 * 
 	 * @param doc
 	 *            文档对象
@@ -118,7 +131,7 @@ public class XMLToObjectUtil {
 	 * @throws DOMException
 	 * @throws ClassNotFoundException
 	 */
-	public Object transform(Document doc, Class objClass, boolean flag) {
+	public <T> T transform(Document doc, Class<T> objClass, boolean flag) {
 		if (null == doc) {
 			throw new IllegalArgumentException("doc is null!");
 		}
@@ -127,7 +140,7 @@ public class XMLToObjectUtil {
 		}
 		try {
 			localVar.set(new HashMap<Class, Map<String, Method>>());
-			return parseElement(doc.getRootElement(), objClass.newInstance(), 0);
+			return (T) parseElement(doc.getRootElement(), objClass.newInstance(), 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
