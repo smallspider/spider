@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spiderDllConfig>
 	<dllResources>
-		<dllResource id="" name="" path=""/>
+		<dllResource id="windowsCommand" osName="windowsCommand" path="dll\windows\WindowsCommand.dll"/>
 	</dllResources>
 	<dllBeans>
-		<dllBean id="windowsCommand" className="org.spider.dll.command.WindowsCommand"
-			osName="Windows" />
+		<dllBean id="windowsCommand" osName="Windows" className="org.spider.dll.command.WindowsCommand"/>
 	</dllBeans>
 </spiderDllConfig>

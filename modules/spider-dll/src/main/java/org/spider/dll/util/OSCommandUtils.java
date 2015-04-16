@@ -5,8 +5,10 @@ package org.spider.dll.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.spider.base.OSPlatform;
@@ -15,6 +17,7 @@ import org.spider.base.util.SpiderClassLoader;
 import org.spider.base.util.XMLToObjectUtil;
 import org.spider.dll.OSCommand;
 import org.spider.dll.model.DllBean;
+import org.spider.dll.model.DllResource;
 import org.spider.dll.model.SpiderDllConfig;
 
 /**
@@ -28,6 +31,7 @@ public class OSCommandUtils {
 	private static OSCommandUtils instance;
 	private static String spiderConfigPath = "config/spiderDllConfig.xml";
 	private Map<String, Map<Class<?>, OSCommand>> osCommandMap = new HashMap<String, Map<Class<?>, OSCommand>>();
+	private Map<String, List<String>> osDllResourceMap = new HashMap<String, List<String>>();
 	private SpiderDllConfig spiderDllConfig;
 
 	private OSCommandUtils() {
@@ -50,10 +54,25 @@ public class OSCommandUtils {
 		try {
 			in = SpiderClassLoader.getInstance().getResourceAsStream(spiderConfigPath);
 			spiderDllConfig = XMLToObjectUtil.getInstance().transform(in, SpiderDllConfig.class, true);
+			OSPlatform osPlatform = OSinfoUtils.getOSname();
+			if (null != spiderDllConfig && null != spiderDllConfig.getDllResources()) {
+				Iterator<DllResource> iterator = spiderDllConfig.getDllResources().iterator();
+				DllResource dllResource = null;
+				while (iterator.hasNext()) {
+					dllResource = iterator.next();
+					if (osPlatform.name().equalsIgnoreCase(dllResource.getOsName())) {
+						if (!osDllResourceMap.containsKey(osPlatform.name())) {
+							osDllResourceMap.put(osPlatform.name(), new ArrayList<String>());
+						} else {
+							//loadDllResource(dllResource.getPath());
+							//osDllResourceMap.get(osPlatform.name()).add();
+						}
+					}
+				}
+			}
 			if (null != spiderDllConfig && null != spiderDllConfig.getDllBeans()) {
 				Iterator<DllBean> iterator = spiderDllConfig.getDllBeans().iterator();
 				DllBean dllBean = null;
-				OSPlatform osPlatform = OSinfoUtils.getOSname();
 				while (iterator.hasNext()) {
 					dllBean = iterator.next();
 					if (osPlatform.name().equalsIgnoreCase(dllBean.getOsName())) {
@@ -64,7 +83,7 @@ public class OSCommandUtils {
 									dllBean.getClassName());
 							osCommandMap.get(osPlatform.name()).put(osCommand.getType(), osCommand);
 							//
-							
+
 						}
 					}
 				}

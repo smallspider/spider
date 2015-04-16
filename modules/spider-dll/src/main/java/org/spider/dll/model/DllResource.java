@@ -10,7 +10,7 @@ package org.spider.dll.model;
  */
 public class DllResource {
 	private String id;
-	private String name;
+	private String osName;
 	private String path;
 
 	public String getId() {
@@ -21,12 +21,12 @@ public class DllResource {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getOsName() {
+		return osName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setOsName(String osName) {
+		this.osName = osName;
 	}
 
 	public String getPath() {
