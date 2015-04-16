@@ -60,10 +60,11 @@ public class OSCommandUtils {
 						if (!osCommandMap.containsKey(osPlatform.name())) {
 							osCommandMap.put(osPlatform.name(), new HashMap<Class<?>, OSCommand>());
 						} else {
-
 							OSCommand osCommand = (OSCommand) SpiderClassLoader.getInstance().newInstance(
 									dllBean.getClassName());
 							osCommandMap.get(osPlatform.name()).put(osCommand.getType(), osCommand);
+							//
+							
 						}
 					}
 				}
