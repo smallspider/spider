@@ -4,6 +4,7 @@
  */
 package org.spider.dll.command;
 
+import org.spider.dll.OSCommand;
 
 /**
  * 
@@ -12,7 +13,7 @@ package org.spider.dll.command;
  * @author yangguang
  * 
  */
-public class WindowsCommand {
+public class WindowsCommand implements OSCommand {
 
 	/**
 	 * 获取桌面视图像素根据像素可以生成一副桌面视图图像
@@ -36,4 +37,8 @@ public class WindowsCommand {
 	 * @return 返回卸载钩子状态
 	 */
 	public native boolean unInstallHook();
+
+	public Class<?> getType() {
+		return WindowsCommand.class;
+	}
 }
