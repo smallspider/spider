@@ -3,8 +3,8 @@
 	<dllBeans>
 		<dllBean id="windowsCommand" osName="Windows"
 			className="org.spider.dll.command.WindowsCommand">
-			<dllResource id="windowsCommand" osName="windowsCommand"
-				fileName="WindowsCommand.dll" path="dll\windows" />
+			<dllResource id="windowsCommand" osName="Windows"
+				fileName="WindowsCommand.dll" path="dll\windows\${0}" />
 		</dllBean>
 	</dllBeans>
 </spiderDllConfig>

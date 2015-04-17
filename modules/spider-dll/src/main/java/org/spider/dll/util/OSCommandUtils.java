@@ -41,7 +41,7 @@ public class OSCommandUtils {
 		init();
 	}
 
-	public OSCommandUtils getInstance() {
+	public static OSCommandUtils getInstance() {
 		if (null == instance) {
 			synchronized (OSCommandUtils.class) {
 				if (null == instance) {
@@ -103,7 +103,7 @@ public class OSCommandUtils {
 			} else {
 				// 将jar包中的dll资源,在默认的临时文件路径下重新生成dll文件
 				File fileDir = new File(tempDir, dllResource.getPath());
-				if (fileDir.exists()) {
+				if (!fileDir.exists()) {
 					fileDir.mkdirs();
 				}
 				out = new FileOutputStream(path);
