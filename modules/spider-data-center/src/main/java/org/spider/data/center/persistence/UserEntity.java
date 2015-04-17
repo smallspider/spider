@@ -1,4 +1,4 @@
-package org.spider.data.center.entity;
+package org.spider.data.center.persistence;
 
 import java.util.List;
 

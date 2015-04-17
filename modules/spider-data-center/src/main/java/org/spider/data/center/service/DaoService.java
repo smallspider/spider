@@ -5,7 +5,7 @@ package org.spider.data.center.service;
 
 import java.util.List;
 
-import org.spider.data.center.entity.DBEntity;
+import org.spider.data.center.persistence.DBEntity;
 
 /**
  * @author yangguangftlp

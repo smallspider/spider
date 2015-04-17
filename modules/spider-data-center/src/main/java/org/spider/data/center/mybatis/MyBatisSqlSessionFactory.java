@@ -17,35 +17,9 @@
  */
 package org.spider.data.center.mybatis;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
-import org.apache.ibatis.builder.xml.XMLConfigBuilder;
-import org.apache.ibatis.builder.xml.XMLMapperBuilder;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spider.data.center.interceptor.Session;
-import org.spider.data.center.interceptor.SessionFactory;
 
 public class MyBatisSqlSessionFactory implements SessionFactory {
 
@@ -196,12 +170,4 @@ public class MyBatisSqlSessionFactory implements SessionFactory {
 	public Session openSession() {
 		return new MybatisSqlSession(getSqlSession());
 	}*/
-	public Class<?> getSessionType() {
-		return null;
-	}
-	public Session openSession() {
-		return null;
-	}
-	
-	
 }

@@ -22,27 +22,18 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spider.data.center.sqlsession.ISqlSession;
 
-public class MybatisSqlSession implements org.spider.data.center.interceptor.Session {
+public class MybatisSqlSession implements ISqlSession {
 
-	SqlSession sqlSession;
+	private SqlSession sqlSession;
 	public static Logger log = LoggerFactory.getLogger(MybatisSqlSession.class);
 
 	public MybatisSqlSession(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 
-	public void insert(String insertStatement, Object persistentObject) {
-		sqlSession.insert(insertStatement, persistentObject);
-	}
-
-	public int update(String updateStatement, Object persistentObject) {
-		return sqlSession.update(updateStatement, persistentObject);
-	}
-
-	public void delete(String statement, Object parameter) {
-		sqlSession.delete(statement, parameter);
-	}
+	
 
 	public List<?> selectList(String statement) {
 		return sqlSession.selectList(statement);
@@ -58,9 +49,7 @@ public class MybatisSqlSession implements org.spider.data.center.interceptor.Ses
 	}
 
 	public void commit() {
-		// if(this.sqlSession != null){
-		// this.sqlSession.commit();
-		// }
+		
 	}
 
 	public void rollback() {
@@ -75,11 +64,43 @@ public class MybatisSqlSession implements org.spider.data.center.interceptor.Ses
 		}
 	}
 
-	public void beforeFlush() {
-
+	/* (non-Javadoc)
+	 * @see org.spider.data.center.sqlsession.ISqlSession#insert(java.lang.String, java.lang.Object)
+	 */
+	public <T> Integer insert(String insertStatement, T obj) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert(insertStatement, obj);
 	}
 
-	public void flush() {
+	/* (non-Javadoc)
+	 * @see org.spider.data.center.sqlsession.ISqlSession#update(java.lang.String, java.lang.Object)
+	 */
+	public <T> Integer update(String updateStatement, T obj) {
+		// TODO Auto-generated method stub
+		return sqlSession.update(updateStatement, obj);
+	}
 
+	/* (non-Javadoc)
+	 * @see org.spider.data.center.sqlsession.ISqlSession#delete(java.lang.String, java.lang.Object)
+	 */
+	public <T> Integer delete(String deleteStatement, T obj) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete(deleteStatement, obj);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.spider.data.center.sqlsession.ISqlSession#queryOne(java.lang.String, java.lang.Object)
+	 */
+	public <T> T queryOne(String queryStatement, T obj) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(queryStatement, obj);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.spider.data.center.sqlsession.ISqlSession#query(java.lang.String, java.lang.Object)
+	 */
+	public <T> List<T> query(String queryStatement, T obj) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(queryStatement, obj);
 	}
 }
