@@ -25,6 +25,7 @@ import org.spider.base.OSPlatform;
  */
 public class OSinfoUtils {
 	private static String OS = System.getProperty("os.name").toLowerCase();
+	private static String ARCH = System.getProperty("os.arch").toLowerCase();
 	private static OSinfoUtils _instance = new OSinfoUtils();
 	private OSPlatform osPlatform;
 
@@ -141,7 +142,16 @@ public class OSinfoUtils {
 	 * 
 	 * @return 操作系统名
 	 */
-	public static OSPlatform getOSname() {
+	public static OSPlatform getOSPlatform() {
 		return _instance.osPlatform;
+	}
+
+	/**
+	 * 获取操作系统名字
+	 * 
+	 * @return 操作系统名
+	 */
+	public static String getOSArch() {
+		return ARCH;
 	}
 }

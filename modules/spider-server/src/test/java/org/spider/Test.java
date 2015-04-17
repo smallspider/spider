@@ -1,4 +1,4 @@
-package org.spider;
+/*package org.spider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 public class Test {
 
@@ -24,11 +23,11 @@ public class Test {
 				in = clientSocket.getInputStream();
 				System.out.println(InetAddress.getByName("127.0.0.1"));
 				ByteOutputStream bout = new ByteOutputStream();
-				/*
+				
 				 * out.write(0x01); byte[] b1 = "tf123".getBytes(); byte[] b2 =
 				 * "tf123".getBytes(); out.write(b1.length); out.write(b1);
 				 * out.write(b2.length); out.write(b2); out.flush();
-				 */
+				 
 				
 				bout.write("1.0".getBytes());
 				bout.write((short)0x01);
@@ -85,3 +84,4 @@ public class Test {
 		}
 	}
 }
+*/

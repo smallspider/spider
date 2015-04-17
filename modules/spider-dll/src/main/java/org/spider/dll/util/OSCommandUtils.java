@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,7 +57,7 @@ public class OSCommandUtils {
 		InputStream in = null;
 		try {
 
-			OSPlatform osPlatform = OSinfoUtils.getOSname();
+			OSPlatform osPlatform = OSinfoUtils.getOSPlatform();
 			osDllResourceMap.put(osPlatform.name(), new ArrayList<String>());
 			osCommandMap.put(osPlatform.name(), new HashMap<Class<?>, OSCommand>());
 
@@ -94,15 +95,18 @@ public class OSCommandUtils {
 		InputStream in = null;
 		OutputStream out = null;
 		try {
-			in = SpiderClassLoader.getInstance().getResourceAsStream(dllResource.getPath());
+			String dllResourcePath = MessageFormat.format(dllResource.getPath(),
+					new Object[] { OSinfoUtils.getOSArch() });
+			String dllFilePath = dllResourcePath + File.separator + dllResource.getFileName();
+			in = SpiderClassLoader.getInstance().getResourceAsStream(dllFilePath);
 			String tempDir = System.getProperty("java.io.tmpdir");
-			String path = tempDir + File.separator + dllResource.getPath() + File.separator + dllResource.getFileName();
+			String path = tempDir + File.separator + dllFilePath;
 			File file = new File(path);
 			if (file.exists()) {
 				System.load(path);
 			} else {
 				// 将jar包中的dll资源,在默认的临时文件路径下重新生成dll文件
-				File fileDir = new File(tempDir, dllResource.getPath());
+				File fileDir = new File(tempDir, dllResourcePath);
 				if (!fileDir.exists()) {
 					fileDir.mkdirs();
 				}
@@ -142,7 +146,7 @@ public class OSCommandUtils {
 	 * @return
 	 */
 	public <T> T getCommand(Class<T> cls) {
-		OSPlatform osPlatform = OSinfoUtils.getOSname();
+		OSPlatform osPlatform = OSinfoUtils.getOSPlatform();
 		return (T) osCommandMap.get(osPlatform.name()).get(cls);
 	}
 }
