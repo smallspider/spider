@@ -16,7 +16,7 @@ public class AppRun
 {
     public static void main( String[] args )
     {
-    	//init();
+    	init();
     	MainUI mainUI = new MainUI();
 		mainUI.setUndecorated(false);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
