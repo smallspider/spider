@@ -20,11 +20,14 @@ package org.spider.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -84,11 +87,10 @@ public class MainUI extends JFrame implements Widget {
 				System.out.println("mouseClicked");
 			}
 		});
-		scrollPanelCenter = new JScrollPane(panelCenter,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollPanelCenter = new JScrollPane(panelCenter, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		JButton jb1 = new JButton("xxx");
-		//panelleft.add(jb1);
+		// panelleft.add(jb1);
 		jb1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -98,12 +100,21 @@ public class MainUI extends JFrame implements Widget {
 		});
 		jtabbedPane = new JTabbedPane();
 		jtabbedPane.add("电脑屏幕", scrollPanelCenter);
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
-				panelleft, jtabbedPane);
+		jtabbedPane.add("电脑屏幕", new JPanel());
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, panelleft, jtabbedPane);
+		// 设置显示小三角
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setContinuousLayout(true);
 		splitPane.setDividerSize(8);
 		splitPane.setDividerLocation(200);
+		// 禁止中间线拖动
+		splitPane.setEnabled(false);
+		/*
+		 * splitPane.addComponentListener(new ComponentAdapter() {
+		 * 
+		 * @Override public void componentResized(ComponentEvent e) {
+		 * splitPane.setDividerLocation(1.0 / 3.0); } });
+		 */
 		// splitPane.setUI(new ShineSplitPaneUI());
 		// 添加分割面板
 		add(splitPane, BorderLayout.CENTER);

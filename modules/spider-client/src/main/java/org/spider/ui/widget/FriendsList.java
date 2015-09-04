@@ -21,9 +21,5 @@ public class FriendsList extends List {
 		add("1");
 		add("1");
 		add("1");
-		
 	}
-	
-	
-
 }

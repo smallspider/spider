@@ -18,12 +18,14 @@
 package org.spider.ui.widget;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Label;
-import java.awt.TextArea;
 
 import javax.swing.JPanel;
 
 /**
+ * 人员 讨论区
+ * 
  * @author yangguangftlp
  * 
  */
@@ -41,12 +43,14 @@ public class PanelLeft extends JPanel {
 
 	private void init() {
 		setLayout(new BorderLayout());
-		//提示
+		// 提示
 		Label label = new Label("aa");
-		add(label,BorderLayout.NORTH);
-		//会议人员
-		add(new FriendsList(),BorderLayout.CENTER);
-		//讨论区
-		add(new TalkPanel(),BorderLayout.SOUTH);
+		add(label, BorderLayout.NORTH);
+		// 会议人员
+		add(new FriendsList(), BorderLayout.CENTER);
+		// 讨论区
+		add(new TalkPanel(), BorderLayout.SOUTH);
+		// 输入
+		add(new TalkPanel(), BorderLayout.SOUTH);
 	}
 }
