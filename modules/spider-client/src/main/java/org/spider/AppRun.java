@@ -19,12 +19,17 @@ public class AppRun
     	init();
     	MainUI mainUI = new MainUI();
 		mainUI.setUndecorated(false);
+		mainUI.setResizable(false);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		//screenSize.setSize(screenSize.getWidth(), screenSize.getHeight()-50);
 		Rectangle bounds = new Rectangle(screenSize);
 		mainUI.setBounds(bounds);
+		mainUI.
+		setMinimumSize(screenSize);
 		mainUI.setExtendedState(MainUI.MAXIMIZED_BOTH);
 		mainUI.setDefaultCloseOperation(MainUI.EXIT_ON_CLOSE);
 		mainUI.setVisible(true);
+		mainUI.setAlwaysOnTop(true);
     }
 
 	private static void init() {

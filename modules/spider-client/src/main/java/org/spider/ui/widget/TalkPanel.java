@@ -2,8 +2,10 @@ package org.spider.ui.widget;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.TextArea;
 import java.awt.TextField;
 
@@ -34,11 +36,11 @@ public class TalkPanel extends JPanel {
 		// 讨论区
 		// 操作区
 		JPanel jp = new JPanel();
-		jp.setLayout(new FlowLayout(FlowLayout.LEFT));
+		jp.setLayout(new GridLayout(3, 1));
 		TextField tf = new TextField(100);
 		jp.add(tf);
 		jp.add(new Button("aa"));
-		add(jp, BorderLayout.SOUTH);
+		add(jp, BorderLayout.CENTER);
 	}
 
 }

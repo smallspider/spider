@@ -18,10 +18,19 @@
 package org.spider.ui.widget;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Label;
+import java.awt.Color;
+import java.awt.TextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  * 人员 讨论区
@@ -36,21 +45,60 @@ public class PanelLeft extends JPanel {
 	 */
 	private static final long serialVersionUID = -1988272633516053139L;
 
+	// 提示
+	private JLabel label;
+	// 人员列表控件
+	private FriendList friendsList;
+	// 内容区
+	private JTextArea textArea;
+	// 输入框
+	private TextField inputText;
+
 	public PanelLeft() {
 		super();
 		init();
+		addListener();
+	}
+
+	private void addListener() {
+		inputText.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					textArea.setCaretPosition(textArea.getText().length());
+					textArea.append(inputText.getText() + "\n");
+					inputText.setText("");
+				}
+			};
+		});
+
 	}
 
 	private void init() {
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(5, 5));
 		// 提示
-		Label label = new Label("aa");
+		label = new JLabel("人员列表");
 		add(label, BorderLayout.NORTH);
 		// 会议人员
-		add(new FriendsList(), BorderLayout.CENTER);
+		friendsList = new FriendList();
+		friendsList.setBorder(new LineBorder(new java.awt.Color(127, 157, 185), 1, false));
+		add(friendsList, BorderLayout.CENTER);
 		// 讨论区
-		add(new TalkPanel(), BorderLayout.SOUTH);
-		// 输入
-		add(new TalkPanel(), BorderLayout.SOUTH);
+		JPanel jp = new JPanel();
+		jp.setLayout(new BorderLayout(5, 5));
+		textArea = new JTextArea(10, 50);
+		//textArea.setBorder(new TitledBorder(BorderFactory.createLineBorder(Color.white, 1), "标题"));
+		// textArea.setBorder(new LineBorder(new java.awt.Color(127, 157, 185),
+		// 1, false));
+		textArea.setLineWrap(true); // 激活自动换行功能
+		textArea.setWrapStyleWord(true);
+
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		// 分别设置水平和垂直滚动条自动出现
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+		jp.add(scrollPane, BorderLayout.CENTER);
+		inputText = new TextField(100);
+		jp.add(inputText, BorderLayout.SOUTH);
+		add(jp, BorderLayout.SOUTH);
 	}
 }
