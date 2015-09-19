@@ -67,6 +67,6 @@
 		<module>modules/spider-data-center</module>
 		<module>modules/spider-msg-engine</module>
 		<module>modules/spider-base</module>
-		<module>spider-mr</module>
+		<module>modules/spider-network</module>
 	</modules>
 </project>
