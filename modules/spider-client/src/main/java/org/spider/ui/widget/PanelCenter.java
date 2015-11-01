@@ -42,7 +42,8 @@ public class PanelCenter extends JPanel {
 	private void init() {
 		setBorder(BorderFactory.createLineBorder(Color.red));
 		for (int i = 0; i < 25; i++) {
-			add(new MonitorPanel());
+			//add(new MonitorPanel());
 		}
+		add(new MonitorPanel());
 	}
 }
