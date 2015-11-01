@@ -68,5 +68,7 @@
 		<module>modules/spider-msg-engine</module>
 		<module>modules/spider-base</module>
 		<module>modules/spider-network</module>
+		<module>modules/spider-dll</module>
+		<module>modules/spider-kernel</module>
 	</modules>
 </project>

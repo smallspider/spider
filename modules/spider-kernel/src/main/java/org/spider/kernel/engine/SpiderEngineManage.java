@@ -15,6 +15,7 @@ package org.spider.network.engine;
  */
 package org.spider.kernel.engine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -33,11 +34,27 @@ public class SpiderEngineManage {
 	private List<SpiderEngine> spiderEngineList;
 
 	/**
+	 * 
+	 */
+	public SpiderEngineManage() {
+		super();
+		spiderEngineList = new ArrayList<SpiderEngine>();
+		loadSpiderEngine();
+	}
+
+	/**
 	 * 加载所有引擎并启动
 	 */
 	public void loadSpiderEngine() {
-
-		ServiceLoader.load(SpiderEngine.class, this.getClass().getClassLoader());
+		// java spi扫描
+		ServiceLoader<SpiderEngine> seServiceLoader = ServiceLoader.load(SpiderEngine.class, this.getClass()
+				.getClassLoader());
+		if (null != seServiceLoader) {
+			for (SpiderEngine spiderEngine : seServiceLoader) {
+				spiderEngineList.add(spiderEngine);
+				spiderEngine.init();
+			}
+		}
 	}
 
 	/**
