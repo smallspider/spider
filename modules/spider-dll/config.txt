@@ -1,0 +1,2 @@
+#进行jni 操作
+jni,target\classes\org\spider\dll\command,org.spider.dll.command.WindowsCommand,true
