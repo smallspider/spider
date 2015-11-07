@@ -18,9 +18,9 @@
 package org.spider.ui.widget;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -35,15 +35,23 @@ public class PanelCenter extends JPanel {
 	private static final long serialVersionUID = 8395687179742213851L;
 
 	public PanelCenter() {
-		super(new GridLayout(0, 5, 5, 5));
 		init();
 	}
 
 	private void init() {
-		setBorder(BorderFactory.createLineBorder(Color.red));
-		for (int i = 0; i < 25; i++) {
-			//add(new MonitorPanel());
-		}
-		add(new MonitorPanel());
+		setLayout(null);
+		JPanel jpanel = new JPanel();
+		jpanel.setSize(350, 200);
+		jpanel.setBorder(BorderFactory.createLineBorder(Color.red));
+		JButton shareButton = new JButton("共享");
+		shareButton.setSize(77,25);
+		JButton cancelButton = new JButton("取消");
+		cancelButton.setSize(77,25);
+		add(jpanel);
+		add(shareButton);
+		add(cancelButton);
+		jpanel.setLocation(25, 25);
+		shareButton.setLocation(90, 235);
+		cancelButton.setLocation(178, 235);
 	}
 }

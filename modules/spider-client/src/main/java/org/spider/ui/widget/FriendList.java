@@ -6,6 +6,10 @@ import java.awt.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
+
 public class FriendList extends JList {
 
 	/**
@@ -25,5 +29,12 @@ public class FriendList extends JList {
 		listModel.addElement("a");
 		setModel(listModel);
 		setCellRenderer(new SpiderListRenderer(this));
+		addMouseWheelListener(new MouseWheelListener() {
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON3){
+					
+				}
+			}
+		});
 	}
 }

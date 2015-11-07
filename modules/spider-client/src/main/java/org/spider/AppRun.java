@@ -35,7 +35,7 @@ public class AppRun
 	private static void init() {
 		//加载皮肤
 		try {
-			//UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+			UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
     	} catch (Exception e) {
 			e.printStackTrace();
 		}
